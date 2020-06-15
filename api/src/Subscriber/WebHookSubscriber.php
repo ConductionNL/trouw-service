@@ -17,27 +17,46 @@ class WebHookSubscriber implements EventSubscriberInterface
     private $trouwService;
     private $serializer;
 
-    public function __construct(ParameterBagInterface $params, TrouwService $trouwService, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, TrouwService $trouwService, CommongroundService $commonground, SerializerInterface $serializer)
     {
         $this->params = $params;
         $this->trouwService = $trouwService;
+        $this->commongroundService = $commongroundService;
         $this->serializer = $serializer;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['getWebHook', EventPriorities::PRE_VALIDATE],
+            KernelEvents::VIEW => ['webHook', EventPriorities::PRE_VALIDATE],
         ];
     }
 
-    public function getWebHook(GetResponseForControllerResultEvent $event)
+    public function webHook(GetResponseForControllerResultEvent $event)
     {
         $webHook = $event->getControllerResult();
-        $taskUri = json_decode($event->getRequest()->getContent(), true)['task'];
-        $resourceUri = json_decode($event->getRequest()->getContent(), true)['resource'];
 
-        $this->trouwService->getWebHook($taskUri, $resourceUri);
+        // Mist validatei logica
+        // Gaat het hioer bijvoorbeeld wel om de jusite entity
+
+
+        // Task ophalen
+        if($task = $webHook->getTask() && $task = $this->commongroundService->getResource($task) && array_key_exists('code',$task) ){
+            // vier feest je
+        }
+        else{
+            return;
+        }
+
+        // Resource ophalen
+        if($resouce = $webHook->getResouce() && $resouce = $this->commongroundService->getResource($resouce) ){
+            // vier feest je
+        }
+        else{
+            return;
+        }
+
+        $this->trouwService->webHook($task, $resource);
 
     }
 }

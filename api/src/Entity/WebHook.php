@@ -21,8 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
- *
+ *     denormalizationContext={"groups"={"write"}} 
  * )
  *
  * @ORM\Entity(repositoryClass="App\Repository\WebhookRepository")
