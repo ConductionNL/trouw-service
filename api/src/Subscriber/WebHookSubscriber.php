@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
@@ -16,12 +17,13 @@ class WebHookSubscriber implements EventSubscriberInterface
     private $params;
     private $trouwService;
     private $serializer;
+    private $commonGroundService;
 
-    public function __construct(ParameterBagInterface $params, TrouwService $trouwService, CommongroundService $commonground, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, TrouwService $trouwService, CommongroundService $commonGroundService, SerializerInterface $serializer)
     {
         $this->params = $params;
         $this->trouwService = $trouwService;
-        $this->commongroundService = $commongroundService;
+        $this->commonGroundService = $commonGroundService;
         $this->serializer = $serializer;
     }
 
@@ -41,7 +43,7 @@ class WebHookSubscriber implements EventSubscriberInterface
 
 
         // Task ophalen
-        if($task = $webHook->getTask() && $task = $this->commongroundService->getResource($task) && array_key_exists('code',$task) ){
+        if($task = $webHook->getTask() && $task = $this->commonGroundService->getResource($task) && array_key_exists('code',$task) ){
             // vier feest je
         }
         else{
@@ -49,7 +51,7 @@ class WebHookSubscriber implements EventSubscriberInterface
         }
 
         // Resource ophalen
-        if($resouce = $webHook->getResouce() && $resouce = $this->commongroundService->getResource($resouce) ){
+        if($resource = $webHook->getResouce() && $resource = $this->commonGroundService->getResource($resource) ){
             // vier feest je
         }
         else{
