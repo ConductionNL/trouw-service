@@ -20,17 +20,18 @@ class TrouwService
 
     public function getWebHook($taskUri, $resourceUri){
         $client = new Client();
+        $api_key = '45c1a4b6-59d3-4a6e-86bf-88a872f35845';
 
-        $requestTask = new Request('GET', $taskUri, [
-        'headers' => [ 'Authorization' => '45c1a4b6-59d3-4a6e-86bf-88a872f35845']]);
+        $requestTask = new Request('GET', $taskUri, ['headers' => [
+            'Authorization' => $api_key
+        ]]);
         $task = $client->send($requestTask, ['timeout' => 2]);
 
-        $requestResource = new Request('GET', $resourceUri, [
-        'headers' => [ 'Authorization' => '45c1a4b6-59d3-4a6e-86bf-88a872f35845']] );
+        $requestResource = new Request('GET', $resourceUri, ['headers' => [
+            'Authorization' => $api_key
+        ]]);
         $resource = $client->send($requestResource, ['timeout' => 2]);
     }
-
-
 
 
 }

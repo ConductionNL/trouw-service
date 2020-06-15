@@ -27,7 +27,7 @@ class WebHookSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-
+            KernelEvents::VIEW => ['getWebHook', EventPriorities::PRE_VALIDATE],
         ];
     }
 
