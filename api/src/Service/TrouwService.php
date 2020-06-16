@@ -37,6 +37,9 @@ class TrouwService
             case "verlopen_huwelijk":
                 $resource = $this->verlopenHuwelijk($task, $resource);
                 break;
+            case "ingediend_huwelijk":
+                $resource = $this->ingediendHuwelijk($task, $resource);
+                break;
             default:
                break;
         }
@@ -80,6 +83,7 @@ class TrouwService
         $dateToTrigger = new \DateTime();
         $dateToTrigger->add(new \DateInterval('P5D')); // Verloopt over 5 dagen
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
         //huwelijk betaald
         $newTask = [];
@@ -92,6 +96,7 @@ class TrouwService
         $dateToTrigger = new \DateTime();
         $dateToTrigger->add(new \DateInterval('P2W')); // Verloopt over 2 weken
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
         //verlopen huwelijk
         $newTask = [];
@@ -104,6 +109,21 @@ class TrouwService
         $dateToTrigger = new \DateTime();
         $dateToTrigger->add(new \DateInterval('P1Y')); // verloopt over 1 jaar
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
+        //ingediend huwelijk
+        $newTask = [];
+        $newTask['code'] = 'ingediend_huwelijk';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P2W')); // verloopt over 2 weken
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
 
         // Reminder trouwen
         $newTask = [];
@@ -175,6 +195,22 @@ class TrouwService
         {
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
+
+        return $resource;
+    }
+
+    public function ingediendHuwelijk(array $task, array $resource)
+    {
+        // valideren of het moet gebeuren
+        if(
+            $resource['status'] != 'incomplete' ||
+            $resource['status'] != 'cancelled'
+        )
+        {
+            return; // Eigenlijk moet je hier een error gooien maar goed
+        }
+
+        $resource['']
 
         return $resource;
     }
