@@ -32,7 +32,7 @@ class TrouwService
                 $resource = $this->verlopenReservering($task, $resource);
                 break;
             default:
-               echo "i is not equal to 0, 1 or 2";
+               break;
         }
 
         // dit pas live gooide nadat we in de event hook optioneel hebben gemaakt
@@ -64,26 +64,26 @@ class TrouwService
         }
 
         // Verlopen reservering
-        $task = [];
-        $task['code'] = 'verlopen_reservering';
-        $task['resource'] = $resource['@id'];
-        $task['endpoint'] = $task['endpoint'];
-        $task['type'] = 'POST';
+        $newTask = [];
+        $newTask['code'] = 'verlopen_reservering';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
 
         // Lets set the time to trigger
         $dateToTrigger = new \DateTime();
         $dateToTrigger->add(new \DateInterval('P5D')); // Verloopt over 5 dagen
-        $task['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
 
         // Reminder trouwen
-        $task = [];
-        $task['code'] = 'reminder_trouwen';
-        $task['resource'] = $resource['@id'];
-        $task['endpoint'] = $task['endpoint'];
-        $task['type'] = 'POST';
+        $newTask = [];
+        $newTask['code'] = 'reminder_trouwen';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
 
         // however ik een week va te voren berken
-        $task['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
 
         // Eerste werkdag van te voren, akte printen
 
