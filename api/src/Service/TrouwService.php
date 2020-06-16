@@ -31,6 +31,12 @@ class TrouwService
             case "verlopen_reservering":
                 $resource = $this->verlopenReservering($task, $resource);
                 break;
+            case "huwelijk_betaald":
+                $resource = $this->huwelijkBetaald($task, $resource);
+                break;
+            case "verlopen_huwelijk":
+                $resource = $this->verlopenHuwelijk($task, $resource);
+                break;
             default:
                break;
         }
@@ -75,6 +81,30 @@ class TrouwService
         $dateToTrigger->add(new \DateInterval('P5D')); // Verloopt over 5 dagen
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
 
+        //huwelijk betaald
+        $newTask = [];
+        $newTask['code'] = 'huwelijk_betaald';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P2W')); // Verloopt over 2 weken
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+
+        //verlopen huwelijk
+        $newTask = [];
+        $newTask['code'] = 'verlopen_huwelijk';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P1Y')); // verloopt over 1 jaar
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+
         // Reminder trouwen
         $newTask = [];
         $newTask['code'] = 'reminder_trouwen';
@@ -88,8 +118,6 @@ class TrouwService
         // Eerste werkdag van te voren, akte printen
 
 
-
-        //
 
         return $resource;
     }
@@ -110,10 +138,43 @@ class TrouwService
         return $resource;
     }
 
+    public function huwelijkBetaald(array $task, array $resource)
+    {
+        // valideren of het moet gebeuren
+        if(
+
+        )
+        {
+            return; // Eigenlijk moet je hier een error gooien maar goed
+        }
+
+        // dus ga mail versturen
+
+        return $resource;
+    }
+
     public function verlopenReservering(array $task, array $resource)
     {
         // valideren of het moet gebeuren
+        if(
 
+        )
+        {
+            return; // Eigenlijk moet je hier een error gooien maar goed
+        }
+
+        return $resource;
+    }
+
+    public function verlopenHuwelijk(array $task, array $resource)
+    {
+        // valideren of het moet gebeuren
+        if(
+
+        )
+        {
+            return; // Eigenlijk moet je hier een error gooien maar goed
+        }
 
         return $resource;
     }
