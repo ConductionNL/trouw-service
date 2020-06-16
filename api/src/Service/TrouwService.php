@@ -83,7 +83,8 @@ class TrouwService
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
 
-
+        // dus ga mail versturen
+        
         return $resource;
     }
 
