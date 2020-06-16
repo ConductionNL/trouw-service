@@ -25,14 +25,17 @@ class TrouwService
             case "update":
                 $resource = $this->update($task, $resource);
                 break;
-            case "reminder_trouwen":
-                $resource = $this->reminderTrouwen($task, $resource);
+            case "reminder_indienen":
+                $resource = $this->reminderIndienen($task, $resource);
+                break;
+            case "reminder_instemmen":
+                $resource = $this->reminderInstemmen($task, $resource);
+                break;
+            case "reminder_betalen":
+                $resource = $this->reminderBetalen($task, $resource);
                 break;
             case "verlopen_reservering":
                 $resource = $this->verlopenReservering($task, $resource);
-                break;
-            case "huwelijk_betaald":
-                $resource = $this->huwelijkBetaald($task, $resource);
                 break;
             case "verlopen_huwelijk":
                 $resource = $this->verlopenHuwelijk($task, $resource);
@@ -85,19 +88,6 @@ class TrouwService
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
         $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
-        //huwelijk betaald
-        $newTask = [];
-        $newTask['code'] = 'huwelijk_betaald';
-        $newTask['resource'] = $resource['@id'];
-        $newTask['endpoint'] = $task['endpoint'];
-        $newTask['type'] = 'POST';
-
-        // Lets set the time to trigger
-        $dateToTrigger = new \DateTime();
-        $dateToTrigger->add(new \DateInterval('P2W')); // Verloopt over 2 weken
-        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
-        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
-
         //verlopen huwelijk
         $newTask = [];
         $newTask['code'] = 'verlopen_huwelijk';
@@ -125,29 +115,56 @@ class TrouwService
         $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
 
-        // Reminder trouwen
+        // Reminder indienen
         $newTask = [];
-        $newTask['code'] = 'reminder_trouwen';
+        $newTask['code'] = 'reminder_indienen';
         $newTask['resource'] = $resource['@id'];
         $newTask['endpoint'] = $task['endpoint'];
         $newTask['type'] = 'POST';
 
-        // however ik een week va te voren berken
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P11D')); // verloopt over 11 dagen
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
-        // Eerste werkdag van te voren, akte printen
+        // Reminder indienen
+        $newTask = [];
+        $newTask['code'] = 'reminder_instemmen';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
 
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
+        // Reminder betalen
+        $newTask = [];
+        $newTask['code'] = 'reminder_betalen';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
 
 
         return $resource;
     }
 
 
-    public function reminderTrouwen(array $task, array $resource)
+    public function reminderIndienen(array $task, array $resource)
     {
         // valideren of het moet gebeuren
         if(
-            $resource['status'] != 'retracted'
+            $resource['status'] == 'incomplete'
+
         )
         {
             return; // Eigenlijk moet je hier een error gooien maar goed
@@ -158,20 +175,77 @@ class TrouwService
         return $resource;
     }
 
-    public function huwelijkBetaald(array $task, array $resource)
+    public function reminderBetalen(array $task, array $resource)
     {
         // valideren of het moet gebeuren
         if(
+            $resource['status'] == '!submitted' &&
+            $resource['properties']['betalen'] == false
 
         )
         {
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
 
+        //setting reminder for next week
+        $newTask = [];
+        $newTask['code'] = 'reminder_betalen';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
+        // dus ga mail versturen
+
+
+
+        return $resource;
+    }
+
+    public function reminderInstemmen(array $task, array $resource)
+    {
+        // valideren of het moet gebeuren
+        $ingestemd = true;
+        foreach($resource['properties']['getuigen'] as  $getuige){
+            $check = $this->commonGroundService->getResource($getuige);
+
+            if ($check['status'] != "granted" && $check['status'] != "submitted" && $ingestemd != false)
+            {
+                $ingestemd = false;
+            }
+        }
+
+        if(
+            $resource['status'] == 'submitted' &&
+            $ingestemd = true
+        )
+        {
+            return; // Eigenlijk moet je hier een error gooien maar goed
+        }
+
+        //setting reminder for next week
+        $newTask = [];
+        $newTask['code'] = 'reminder_instemmen';
+        $newTask['resource'] = $resource['@id'];
+        $newTask['endpoint'] = $task['endpoint'];
+        $newTask['type'] = 'POST';
+
+        // Lets set the time to trigger
+        $dateToTrigger = new \DateTime();
+        $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
         // dus ga mail versturen
 
         return $resource;
     }
+
 
     public function verlopenReservering(array $task, array $resource)
     {
@@ -190,12 +264,14 @@ class TrouwService
     {
         // valideren of het moet gebeuren
         if(
-
+            $resource['status'] != 'complete' ||
+            $resource['status'] != 'cancelled'
         )
         {
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
 
+        $resource['properties']['datum'] == null;
         return $resource;
     }
 
@@ -210,6 +286,7 @@ class TrouwService
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
 
+        $resource['properties']['datum'] == null;
 
         return $resource;
     }
