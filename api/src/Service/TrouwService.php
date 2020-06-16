@@ -18,28 +18,30 @@ class TrouwService
         $this->commonGroundService = $commonGroundService;
     }
 
-    public function webHook($task $resource){
+    public function webHook($task, $resource){
 
 
-        switch ($task['code']) {
-            case 'update':
-                $resource = $this->update($task $resource);
+        switch($task['code']) {
+            case "update":
+                $resource = $this->update($task, $resource);
                 break;
-            case 'reminder_trouwen':
-                $resource = $this->reminderTrouwen($task $resource);
+            case "reminder_trouwen":
+                $resource = $this->reminderTrouwen($task, $resource);
                 break;
-            case 2:
-                echo "i equals 2";
+            case "verlopen_reservering":
+                $resource = $this->verlopenReservering($task, $resource);
                 break;
             default:
                echo "i is not equal to 0, 1 or 2";
         }
 
         // dit pas live gooide nadat we in de event hook optioneel hebben gemaakt
-        $this->commongroundService->saveResource($resource);
+        $this->commonGroundService->saveResource($resource);
     }
 
-    public function update(araay $task, array $resource)
+
+
+    public function update(array $task, array $resource)
     {
         // Verlopen reservering
         $task = [];
@@ -73,7 +75,7 @@ class TrouwService
     }
 
 
-    public function reminderTrouwen(araay $task, array $resource)
+    public function reminderTrouwen(array $task, array $resource)
     {
         // valideren of het moet gebeuren
         if(
@@ -88,6 +90,14 @@ class TrouwService
         return $resource;
     }
 
+    public function verlopenReservering(array $task, array $resource)
+    {
+        // valideren of het moet gebeuren
+
+
+        return $resource;
+    }
+
     public function sendReminder(array $resource)
     {
         // bla bal bla
@@ -95,20 +105,8 @@ class TrouwService
         return $resource;
     }
 
-    public function getWebHook($taskUri, $resourceUri){
-        $client = new Client();
-        $api_key = '45c1a4b6-59d3-4a6e-86bf-88a872f35845';
 
-        $requestTask = new Request('GET', $taskUri, ['headers' => [
-            'Authorization' => $api_key
-        ]]);
-        $task = $client->send($requestTask, ['timeout' => 2]);
 
-        $requestResource = new Request('GET', $resourceUri, ['headers' => [
-            'Authorization' => $api_key
-        ]]);
-        $resource = $client->send($requestResource, ['timeout' => 2]);
-    }
 
 
 }
