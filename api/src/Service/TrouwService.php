@@ -210,7 +210,6 @@ class TrouwService
             return; // Eigenlijk moet je hier een error gooien maar goed
         }
 
-        $resource['']
 
         return $resource;
     }
