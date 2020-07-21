@@ -202,8 +202,6 @@ class TrouwService
 
         // dus ga mail versturen
 
-
-
         return $resource;
     }
 
@@ -250,12 +248,6 @@ class TrouwService
     public function verlopenReservering(array $task, array $resource)
     {
         // valideren of het moet gebeuren
-        if(
-
-        )
-        {
-            return; // Eigenlijk moet je hier een error gooien maar goed
-        }
 
         return $resource;
     }
