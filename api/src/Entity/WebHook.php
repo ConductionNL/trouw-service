@@ -18,10 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 //@ORM\Entity(repositoryClass=WebhookRepository::class)
 //@ORM\Entity(repositoryClass="App\Repository\webhookRepository")
 /**
- *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}} 
+ *     denormalizationContext={"groups"={"write"}}
  * )
  *
  * @ORM\Entity(repositoryClass="App\Repository\WebhookRepository")
@@ -34,7 +33,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class WebHook
 {
-
     /**
      * @var UuidInterface The UUID identifier of this object
      *
