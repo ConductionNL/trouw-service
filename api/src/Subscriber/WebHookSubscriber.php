@@ -4,13 +4,12 @@ namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Service\TrouwService;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Symfony\Component\Serializer\SerializerInterface;
-
 
 class WebHookSubscriber implements EventSubscriberInterface
 {
@@ -41,24 +40,20 @@ class WebHookSubscriber implements EventSubscriberInterface
         // Mist validatei logica
         // Gaat het hioer bijvoorbeeld wel om de jusite entity
 
-
         // Task ophalen
-        if($task = $webHook->getTask() && $task = $this->commonGroundService->getResource($task) && array_key_exists('code',$task) ){
+        if ($task = $webHook->getTask() && $task = $this->commonGroundService->getResource($task) && array_key_exists('code', $task)) {
             // vier feest je
-        }
-        else{
+        } else {
             return;
         }
 
         // Resource ophalen
-        if($resource = $webHook->getResouce() && $resource = $this->commonGroundService->getResource($resource) ){
+        if ($resource = $webHook->getResouce() && $resource = $this->commonGroundService->getResource($resource)) {
             // vier feest je
-        }
-        else{
+        } else {
             return;
         }
 
         $this->trouwService->webHook($task, $resource);
-
     }
 }
