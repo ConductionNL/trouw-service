@@ -56,7 +56,7 @@ class TrouwService
     public function update(array $task, array $resource)
     {
         // We want to force product shizle
-        $ceremonieOfferId = $this->commonGroundService->getUuidFromUrl($resource['properties']['ceremonie']);
+        $ceremonieOfferId = $this->commonGroundService->getUuidFromUrl($resource['properties']['plechtigheid']);
         switch($ceremonieOfferId) {
             case "1ba1772b-cc8a-4808-ad1e-f9b3c93bdebf": // Flits huwelijks
                 $resource['properties']['ambtenaar'] = $this->commonGroundService->cleanUrl(['component'=>'pdc','type'=>'offers','id'=>'55af09c8-361b-418a-af87-df8f8827984b']);
