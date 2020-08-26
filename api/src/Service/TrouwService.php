@@ -17,8 +17,48 @@ class TrouwService
         $this->commonGroundService = $commonGroundService;
     }
 
-    public function webHook($task, $resource)
+    public function webHook(WebHook $webHook)
     {
+        if($webHook->getTask() && $task = $this->commonGroundService->getResource($webHook->getTask())){
+            $this->executeTask($task, $webHook);
+        }
+        else{
+            $this->sendConfirmation($webHook);
+        }
+    }
+
+    public function sendConfirmation(Webhook $webHook){
+        $resource = $this->commonGroundService->getResource($webHook->getResource());
+
+        $message['sender'] = $resource['organization'];
+        $submitters = $resource['submitters'];
+        foreach($submitters as $submitter){
+            if(key_exists('person', $submitter)  && $submitter['person'] != null){
+                $message['receiver'] = $this->commonGroundService->getResource($submitter['person']);
+                $message['data'] = ['resource'=>$resource, 'contact'=>$message['receiver'], 'organization'=>$message['sender']];
+                var_dump($message);
+            }
+        }
+
+        if(key_exists('partners', $resource['properties'])){
+            foreach($resource['properties']['partners'] as $partner){
+                $partner = $this->commonGroundService->getResource($partner);
+                $message['receiver'] = $partner;
+                $message['data'] = ['resource'=>$resource, 'contact'=>$message['receiver'], 'organization'=>$message['sender']];
+                var_dump($message);
+            }
+        }
+
+        die;
+    }
+
+
+
+
+    // Task execution from here
+    public function executeTask(array $task, Webhook $webHook){
+        $resource = $this->commonGroundService->getResource($webHook->getResource());
+
         switch ($task['code']) {
             case 'update':
                 $resource = $this->update($task, $resource);
@@ -42,10 +82,9 @@ class TrouwService
                 $resource = $this->ingediendHuwelijk($task, $resource);
                 break;
             default:
-               break;
+                break;
         }
 
-        // dit pas live gooide nadat we in de event hook optioneel hebben gemaakt
         $this->commonGroundService->saveResource($resource);
     }
 

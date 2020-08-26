@@ -52,7 +52,6 @@ class WebHook
      *
      * @example https://qc.zuid-drecht.nl/task/e2984465-190a-4562-829e-a8cca81aa35d
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", nullable=false)
      * @Assert\Url
      */
     private $task;
