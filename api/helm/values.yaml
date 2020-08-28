@@ -8,7 +8,7 @@ settings:
   name: ts
   title: Trouw Service
   version: V.0.1
-  id: 
+  id: 1ef30b69-6b28-4fbd-a0cd-83d6ff3c505e
   description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
   type: component
   repro: https://github.com/ConductionNL/trouw-service

@@ -84,6 +84,14 @@ class WebHook
      */
     private $dateModified;
 
+    /**
+     * @var array The result of the webhook
+     *
+     * @Groups({"read"})
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $result = [];
+
     public function getId()
     {
         return $this->id;
@@ -133,6 +141,18 @@ class WebHook
     public function setDateModified(\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getResult(): ?array
+    {
+        return $this->result;
+    }
+
+    public function setResult(?array $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }
