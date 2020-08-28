@@ -5,20 +5,79 @@ namespace App\Service;
 use App\Entity\WebHook;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TrouwService
 {
     private $em;
     private $commonGroundService;
+    private $params;
 
-    public function __construct(EntityManagerInterface $em, CommonGroundService $commonGroundService)
+    public function __construct(EntityManagerInterface $em, CommonGroundService $commonGroundService, ParameterBagInterface $params)
     {
         $this->em = $em;
         $this->commonGroundService = $commonGroundService;
+        $this->params = $params;
     }
 
-    public function webHook($task, $resource)
+    public function webHook(WebHook $webHook)
     {
+        if ($webHook->getTask() && $task = $this->commonGroundService->getResource($webHook->getTask())) {
+            $this->executeTask($task, $webHook);
+        } else {
+            $webhook = $this->sendConfirmation($webHook);
+        }
+        $this->em->persist($webHook);
+        $this->em->flush();
+    }
+
+    public function sendConfirmation(Webhook $webHook)
+    {
+        $resource = $this->commonGroundService->getResource($webHook->getResource());
+        $result = [];
+//        var_dump($resource['organization']);
+        $message['service'] = $this->commonGroundService->getResourceList(['component'=>'bs', 'type'=>'services'], "?type=mailer&organization={$resource['organization']}")['hydra:member'][0]['@id'];
+        $message['status'] = 'queued';
+        $organization = $this->commonGroundService->getResource($resource['organization']);
+
+        if ($organization['contact']) {
+            $message['sender'] = $organization['contact'];
+        }
+        $submitters = $resource['submitters'];
+        $message['content'] = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
+        foreach ($submitters as $submitter) {
+            if (key_exists('person', $submitter) && $submitter['person'] != null) {
+                $message['reciever'] = $this->commonGroundService->getResource($submitter['person']);
+                if (!key_exists('sender', $message)) {
+                    $message['sender'] = $message['reciever'];
+                }
+                $message['data'] = ['resource'=>$resource, 'contact'=>$message['reciever'], 'organization'=>$message['sender']];
+                $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
+            }
+        }
+
+        if (key_exists('partners', $resource['properties'])) {
+            foreach ($resource['properties']['partners'] as $partner) {
+                if ($partner = $this->commonGroundService->isResource($partner)) {
+                    $message['reciever'] = $partner['contact'];
+                    if (!key_exists('sender', $message)) {
+                        $message['sender'] = $message['reciever'];
+                    }
+                    $message['data'] = ['resource'=>$resource, 'sender'=>$organization, 'receiver'=>$this->commonGroundService->getResource($message['reciever'])];
+                    $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
+                }
+            }
+        }
+        $webHook->setResult($result);
+
+        return $webHook;
+    }
+
+    // Task execution from here
+    public function executeTask(array $task, Webhook $webHook)
+    {
+        $resource = $this->commonGroundService->getResource($webHook->getResource());
+
         switch ($task['code']) {
             case 'update':
                 $resource = $this->update($task, $resource);
@@ -42,10 +101,9 @@ class TrouwService
                 $resource = $this->ingediendHuwelijk($task, $resource);
                 break;
             default:
-               break;
+                break;
         }
 
-        // dit pas live gooide nadat we in de event hook optioneel hebben gemaakt
         $this->commonGroundService->saveResource($resource);
     }
 
