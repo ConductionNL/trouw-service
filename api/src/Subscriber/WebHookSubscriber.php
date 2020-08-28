@@ -3,6 +3,7 @@
 namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\WebHook;
 use App\Service\TrouwService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -37,6 +38,8 @@ class WebHookSubscriber implements EventSubscriberInterface
     {
         $webHook = $event->getControllerResult();
 
-        $this->trouwService->webHook($webHook);
+        if($webHook instanceof WebHook){
+            $this->trouwService->webHook($webHook);
+        }
     }
 }
