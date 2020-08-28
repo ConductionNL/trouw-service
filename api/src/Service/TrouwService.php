@@ -22,34 +22,33 @@ class TrouwService
 
     public function webHook(WebHook $webHook)
     {
-        if($webHook->getTask() && $task = $this->commonGroundService->getResource($webHook->getTask())){
+        if ($webHook->getTask() && $task = $this->commonGroundService->getResource($webHook->getTask())) {
             $this->executeTask($task, $webHook);
-        }
-        else{
+        } else {
             $webhook = $this->sendConfirmation($webHook);
-
         }
         $this->em->persist($webHook);
         $this->em->flush();
     }
 
-    public function sendConfirmation(Webhook $webHook){
+    public function sendConfirmation(Webhook $webHook)
+    {
         $resource = $this->commonGroundService->getResource($webHook->getResource());
         $result = [];
 //        var_dump($resource['organization']);
-        $message['service'] = $this->commonGroundService->getResourceList(['component'=>'bs','type'=>'services'],"?type=mailer&organization={$resource['organization']}")['hydra:member'][0]['@id'];
+        $message['service'] = $this->commonGroundService->getResourceList(['component'=>'bs', 'type'=>'services'], "?type=mailer&organization={$resource['organization']}")['hydra:member'][0]['@id'];
         $message['status'] = 'queued';
         $organization = $this->commonGroundService->getResource($resource['organization']);
 
-        if($organization['contact']){
+        if ($organization['contact']) {
             $message['sender'] = $organization['contact'];
         }
         $submitters = $resource['submitters'];
-        $message['content'] = $this->commonGroundService->getResource(['component'=>'wrc','type'=>'applications','id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
-        foreach($submitters as $submitter){
-            if(key_exists('person', $submitter)  && $submitter['person'] != null){
+        $message['content'] = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
+        foreach ($submitters as $submitter) {
+            if (key_exists('person', $submitter) && $submitter['person'] != null) {
                 $message['reciever'] = $this->commonGroundService->getResource($submitter['person']);
-                if(!key_exists('sender', $message)){
+                if (!key_exists('sender', $message)) {
                     $message['sender'] = $message['reciever'];
                 }
                 $message['data'] = ['resource'=>$resource, 'contact'=>$message['reciever'], 'organization'=>$message['sender']];
@@ -57,11 +56,11 @@ class TrouwService
             }
         }
 
-        if(key_exists('partners', $resource['properties'])){
-            foreach($resource['properties']['partners'] as $partner){
-                if($partner = $this->commonGroundService->isResource($partner)){
-                    $message['reciever'] = $partner["contact"];
-                    if(!key_exists('sender', $message)){
+        if (key_exists('partners', $resource['properties'])) {
+            foreach ($resource['properties']['partners'] as $partner) {
+                if ($partner = $this->commonGroundService->isResource($partner)) {
+                    $message['reciever'] = $partner['contact'];
+                    if (!key_exists('sender', $message)) {
                         $message['sender'] = $message['reciever'];
                     }
                     $message['data'] = ['resource'=>$resource, 'sender'=>$organization, 'receiver'=>$this->commonGroundService->getResource($message['reciever'])];
@@ -70,14 +69,13 @@ class TrouwService
             }
         }
         $webHook->setResult($result);
+
         return $webHook;
     }
 
-
-
-
     // Task execution from here
-    public function executeTask(array $task, Webhook $webHook){
+    public function executeTask(array $task, Webhook $webHook)
+    {
         $resource = $this->commonGroundService->getResource($webHook->getResource());
 
         switch ($task['code']) {
