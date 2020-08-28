@@ -2047,6 +2047,15 @@ paths:
               - asc
               - desc
         -
+          name: 'order[result]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'dateCreated[before]'
           in: query
           required: false
@@ -2150,6 +2159,22 @@ paths:
           required: false
           schema:
             type: string
+        -
+          name: result
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'result[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         -
           name: page
           in: query
@@ -3197,6 +3222,12 @@ components:
           type: string
           format: date-time
           nullable: true
+        result:
+          description: 'The result of the webhook'
+          type: array
+          items:
+            type: string
+          nullable: true
     WebHook-write:
       type: object
       description: ''
@@ -3251,6 +3282,12 @@ components:
           type: string
           format: date-time
           nullable: true
+        result:
+          description: 'The result of the webhook'
+          type: array
+          items:
+            type: string
+          nullable: true
     'WebHook:jsonld-write':
       type: object
       description: ''
@@ -3293,6 +3330,9 @@ definitions:
       dateModified:
         description: 'The moment this resource last Modified'
         type: \Datetime
+      result:
+        description: 'The result of the webhook'
+        type: array
     required: []
   WebHook-write:
     properties:
@@ -3406,12 +3446,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-28 09:00:38'
+        example: '2020-08-28 10:42:33'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-28 09:00:38'
+        example: '2020-08-28 10:42:33'
     required: []
   AuditTrail-write:
     properties:
@@ -3459,12 +3499,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-28 09:00:38'
+        example: '2020-08-28 10:42:33'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-28 09:00:38'
+        example: '2020-08-28 10:42:33'
     required: []
   ChangeLog-write:
     properties:
