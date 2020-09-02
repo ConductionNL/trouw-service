@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\WebHook;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -25,17 +27,30 @@ class TrouwService
         if ($webHook->getTask() && $task = $this->commonGroundService->getResource($webHook->getTask())) {
             $this->executeTask($task, $webHook);
         } else {
-            $webhook = $this->sendConfirmation($webHook);
+            $resource = $this->commonGroundService->getResource($webHook->getResource());
+            $results = [];
+            $results = array_merge($results, $this->sendConfirmation($webHook, $resource));
+            $results = array_merge($results, $this->setReminder($webHook, $resource));
+            $webHook->setResult($results);
         }
         $this->em->persist($webHook);
         $this->em->flush();
     }
 
-    public function sendConfirmation(Webhook $webHook)
-    {
-        $resource = $this->commonGroundService->getResource($webHook->getResource());
-        $result = [];
-//        var_dump($resource['organization']);
+    public function createQueueTask($code, $resource, $endpoint, $dateToTrigger){
+        $newTask = [];
+        $newTask['code'] = $code;
+        $newTask['name'] = $code;
+        $newTask['resource'] = $resource;
+        $newTask['endpoint'] = $endpoint;
+        $newTask['type'] = 'POST';
+        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
+
+        $result = $this->commonGroundService->createResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+        return $result['@id'];
+    }
+    public function createMessages($content, $resource){
+        $messages = [];
         $message['service'] = $this->commonGroundService->getResourceList(['component'=>'bs', 'type'=>'services'], "?type=mailer&organization={$resource['organization']}")['hydra:member'][0]['@id'];
         $message['status'] = 'queued';
         $organization = $this->commonGroundService->getResource($resource['organization']);
@@ -44,7 +59,7 @@ class TrouwService
             $message['sender'] = $organization['contact'];
         }
         $submitters = $resource['submitters'];
-        $message['content'] = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
+        $message['content'] = $content;
         foreach ($submitters as $submitter) {
             if (key_exists('person', $submitter) && $submitter['person'] != null) {
                 $message['reciever'] = $this->commonGroundService->getResource($submitter['person']);
@@ -52,7 +67,7 @@ class TrouwService
                     $message['sender'] = $message['reciever'];
                 }
                 $message['data'] = ['resource'=>$resource, 'contact'=>$message['reciever'], 'organization'=>$message['sender']];
-                $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
+                $messages[] = $message;
             }
         }
 
@@ -64,13 +79,40 @@ class TrouwService
                         $message['sender'] = $message['reciever'];
                     }
                     $message['data'] = ['resource'=>$resource, 'sender'=>$organization, 'receiver'=>$this->commonGroundService->getResource($message['reciever'])];
-                    $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
+                    $messages[] = $message;
                 }
             }
         }
-        $webHook->setResult($result);
+        return $messages;
+    }
+    public function sendConfirmation(WebHook $webHook, $resource)
+    {
+        $content = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
+        $messages = $this->createMessages($content, $resource);
 
-        return $webHook;
+        $result = [];
+        foreach($messages as $message){
+            $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
+        }
+
+        return $result;
+    }
+
+    public function setReminder(WebHook $webHook, $resource)
+    {
+        $result = [];
+        $code = "reminder_melding";
+        if(key_exists('datum', $resource['properties']) && $date = $resource['properties']['datum']){
+            // @TODO: dit is nu tijdelijk gefixt tot het ARC in het PAN is aangesloten
+//            $date = new DateTime($date);
+//            $triggerDate = clone $date;
+//            $triggerDate->sub(new DateInterval('P14D'));
+            $triggerDate = new DateTime();
+            $triggerDate->add(new DateInterval('P14D'));
+            $result[] = $this->createQueueTask($code, $resource['@id'], $this->commonGroundService->cleanUrl(['component'=>'ts', 'type'=>'web_hooks']), $triggerDate);
+
+        }
+        return $result;
     }
 
     // Task execution from here
@@ -99,6 +141,9 @@ class TrouwService
                 break;
             case 'ingediend_huwelijk':
                 $resource = $this->ingediendHuwelijk($task, $resource);
+                break;
+            case 'reminder_melding':
+                $this->sendReminder($resource);
                 break;
             default:
                 break;
@@ -330,7 +375,12 @@ class TrouwService
 
     public function sendReminder(array $resource)
     {
-        // bla bal bla
+        $content = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-herinnering"])['@id'];
+        $messages = $this->createMessages($content, $resource);
+
+        foreach($messages as $message){
+            $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages']);
+        }
 
         return $resource;
     }
