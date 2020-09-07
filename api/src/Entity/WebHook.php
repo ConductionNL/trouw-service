@@ -52,7 +52,6 @@ class WebHook
      *
      * @example https://qc.zuid-drecht.nl/task/e2984465-190a-4562-829e-a8cca81aa35d
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", nullable=false)
      * @Assert\Url
      */
     private $task;
@@ -84,6 +83,14 @@ class WebHook
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModified;
+
+    /**
+     * @var array The result of the webhook
+     *
+     * @Groups({"read"})
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $result = [];
 
     public function getId()
     {
@@ -134,6 +141,18 @@ class WebHook
     public function setDateModified(\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getResult(): ?array
+    {
+        return $this->result;
+    }
+
+    public function setResult(?array $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }
