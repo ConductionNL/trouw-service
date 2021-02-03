@@ -119,4 +119,4 @@ dependsOn:
 
 installations:
     - type: helm
-      url: "https://github.com/ConductionNL/trouw-service/raw/master/api/helm/ts-0.1.0.tgz"
+      url: "https://raw.githubusercontent.com/ConductionNL/trouw-service/master/api/helm/"
