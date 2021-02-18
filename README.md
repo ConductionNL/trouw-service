@@ -2,11 +2,7 @@
 
 Description
 ----
-Welcome to the the VNG Common Ground proto component!
-
-This "proto" component provides a plug and play solution for component generation on Common Ground. That means that it takes away all the hassle of setting op codebases, containers and following the VNG Api Standaard. It does all that for you!
-
-For that we use **[Api Platform](https://api-platform.com)**, a next-generation web framework designed to easily create API-first projects, without compromising extensibility and flexibility.
+The Trouw Service is used for a number of different mailing tasks, such as confirmation emails about new submitted marriages, but also reminder emails that will be sent in the future, using the Queue Component. These reminder emails can be about payments, reservations or accepting wedding invitations.
 
 Additional Information
 ----
@@ -52,10 +48,6 @@ This component adheres to international, national and local standards (in that o
 - [Haven](https://haven.commonground.nl/docs/de-standaard)
 - [NLX](https://docs.nlx.io/understanding-the-basics/introduction)
 - [Standard for Public Code](https://standard.publiccode.net/), see the [compliancy scan](publiccode.md) for further information.
-
-This component is based on the following [schema.org](https://schema.org) sources:
-- [Address](https://schema.org/PostalAddress)
-- [Person](https://schema.org/Person)
 
 Developers toolkit and technical information
 ----
