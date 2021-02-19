@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
-  title: 'Proto component commonground'
+  title: ''
   version: V1.0
   description: |
     API Details
-    - Component: Proto component commonground
-    - Reference: pc
+    - Component: 
+    - Reference: trouw-service
     - Enviroment: dev
     - Version: V1.0
-    - Repository: [online](https://github.com/ConductionNL/Proto-component-commonground) / [zip](https://github.com/ConductionNL/Proto-component-commonground/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/pc-php) 
-    - Datamodel: [postman](schema/pc.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Repository: [online](https://github.com/ConductionNL/trouw-service) / [zip](https://github.com/ConductionNL/trouw-service/archive/master.zip)
+    - Docker Image: [online]() 
+    - Datamodel: [postman](schema/trouw-service.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -3485,12 +3485,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 15:16:25'
+        example: '2021-02-19 02:19:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 15:16:25'
+        example: '2021-02-19 02:19:28'
     required: []
   AuditTrail-write:
     properties:
@@ -3538,12 +3538,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 15:16:25'
+        example: '2021-02-19 02:19:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 15:16:25'
+        example: '2021-02-19 02:19:28'
     required: []
   ChangeLog-write:
     properties:
@@ -3591,7 +3591,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: pc.dev.conduction.nl
+    url: trouw-service.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'

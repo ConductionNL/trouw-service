@@ -1,24 +1,11 @@
 apiVersion: v1
 entries:
-  pc:
-  - apiVersion: v1
-    appVersion: V1.0
-    created: "2021-02-18T15:09:10.9222608Z"
-    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
-      beschikbaar.
-    digest: e64d7ede44c68b45fd2ef81457a0276bf691b3a9c794816c97ea92ec801af30e
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: pc
-    urls:
-    - pc-0.1.0.tgz
-    version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-18T15:09:10.9477246Z"
+    created: "2021-02-19T02:20:20.905556Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,17 +34,30 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-  ts:
+  trouw-service:
   - apiVersion: v1
-    appVersion: V.0.1
-    created: "2021-02-18T12:06:20.33848Z"
+    appVersion: V1.0
+    created: "2021-02-19T02:20:20.8870898Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 4d212de83f1f617a6cba43c57c7d0c0b31f9166f91efbe00a9d8492d97de7413
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: ts
+    digest: 4f37d1d5819c0274f8f85490287a5bc5f05a03c71f25c00b45f5fbd0fa57fabd
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: trouw-service
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
     urls:
-    - ts-0.1.0.tgz
+    - trouw-service-0.1.0.tgz
     version: 0.1.0
-generated: "2021-02-18T12:06:20.3311195Z"
+generated: "2021-02-19T02:20:20.8711577Z"
