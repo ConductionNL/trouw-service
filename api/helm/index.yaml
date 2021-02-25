@@ -1,16 +1,63 @@
 apiVersion: v1
 entries:
-  ts:
-  - apiVersion: v1
-    appVersion: V.0.1
-    created: "2020-08-28T13:44:10.0777036Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: 23caf5a35879ba2a5bc5a1fb70c005237c7a2901b475f87d8f932d1ffd95c6d0
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: ts
+  postgresql:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 11.10.0
+    created: "2021-02-24T20:46:56.3357334Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 1.x.x
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
+    home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-postgresql
+    - https://www.postgresql.org/
     urls:
-    - ts-0.1.0.tgz
+    - charts/postgresql-10.1.1.tgz
+    version: 10.1.1
+  trouw-service:
+  - apiVersion: v1
+    appVersion: V1.0
+    created: "2021-02-24T20:46:56.3242605Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 9c4443313e8701600150cca37205d0944e41e018f3b889434a841834e653d08a
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: trouw-service
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - trouw-service-0.1.0.tgz
     version: 0.1.0
-generated: "2020-08-28T13:44:10.06359Z"
+generated: "2021-02-24T20:46:56.3083405Z"
