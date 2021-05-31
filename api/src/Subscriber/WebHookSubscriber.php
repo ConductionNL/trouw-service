@@ -38,7 +38,7 @@ class WebHookSubscriber implements EventSubscriberInterface
     {
         $webHook = $event->getControllerResult();
 
-        if($webHook instanceof WebHook){
+        if ($webHook instanceof WebHook) {
             $this->trouwService->webHook($webHook);
         }
     }
