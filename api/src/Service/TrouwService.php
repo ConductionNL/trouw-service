@@ -37,7 +37,8 @@ class TrouwService
         $this->em->flush();
     }
 
-    public function createQueueTask($code, $resource, $endpoint, $dateToTrigger){
+    public function createQueueTask($code, $resource, $endpoint, $dateToTrigger)
+    {
         $newTask = [];
         $newTask['code'] = $code;
         $newTask['name'] = $code;
@@ -47,9 +48,12 @@ class TrouwService
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
 
         $result = $this->commonGroundService->createResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
+
         return $result['@id'];
     }
-    public function createMessages($content, $resource){
+
+    public function createMessages($content, $resource)
+    {
         $messages = [];
         $message['service'] = $this->commonGroundService->getResourceList(['component'=>'bs', 'type'=>'services'], "?type=mailer&organization={$resource['organization']}")['hydra:member'][0]['@id'];
         $message['status'] = 'queued';
@@ -83,15 +87,17 @@ class TrouwService
                 }
             }
         }
+
         return $messages;
     }
+
     public function sendConfirmation(WebHook $webHook, $resource)
     {
         $content = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-wijziging"])['@id'];
         $messages = $this->createMessages($content, $resource);
 
         $result = [];
-        foreach($messages as $message){
+        foreach ($messages as $message) {
             $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages'])['@id'];
         }
 
@@ -101,8 +107,8 @@ class TrouwService
     public function setReminder(WebHook $webHook, $resource)
     {
         $result = [];
-        $code = "reminder_melding";
-        if(key_exists('datum', $resource['properties']) && $date = $resource['properties']['datum']){
+        $code = 'reminder_melding';
+        if (key_exists('datum', $resource['properties']) && $date = $resource['properties']['datum']) {
             // @TODO: dit is nu tijdelijk gefixt tot het ARC in het PAN is aangesloten
 //            $date = new DateTime($date);
 //            $triggerDate = clone $date;
@@ -110,8 +116,8 @@ class TrouwService
             $triggerDate = new DateTime();
             $triggerDate->add(new DateInterval('P14D'));
             $result[] = $this->createQueueTask($code, $resource['@id'], $this->commonGroundService->cleanUrl(['component'=>'ts', 'type'=>'web_hooks']), $triggerDate);
-
         }
+
         return $result;
     }
 
@@ -378,7 +384,7 @@ class TrouwService
         $content = $this->commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=>"{$this->params->get('app_id')}/e-mail-herinnering"])['@id'];
         $messages = $this->createMessages($content, $resource);
 
-        foreach($messages as $message){
+        foreach ($messages as $message) {
             $result[] = $this->commonGroundService->createResource($message, ['component'=>'bs', 'type'=>'messages']);
         }
 
