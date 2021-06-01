@@ -23,4 +23,9 @@ class TrouwServiceTest extends TestCase
     {
 
     }
+
+    public function testWebhook()
+    {
+
+    }
 }

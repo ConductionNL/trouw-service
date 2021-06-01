@@ -180,29 +180,15 @@ class TrouwService
         $this->verlopenHuwelijkTask($resource, $task);
         $this->ingediendHuwelijkTask($resource, $task);
         $this->reminderIndienenTask($resource, $task);;
-        $this->reminderBetalen($task, $resource);
-        $this->reminderInstemmenTask($task, $resource);
+        $this->reminderWeek($task, $resource, 'reminder_instemmen');
+        $this->reminderWeek($task, $resource, 'reminder_betalen');
 
         return $resource;
     }
 
-    public function reminderInstemmenTask($resource, $task) {
+    public function reminderWeek($resource, $task, $code) {
         $newTask = [];
-        $newTask['code'] = 'reminder_instemmen';
-        $newTask['resource'] = $resource['@id'];
-        $newTask['endpoint'] = $task['endpoint'];
-        $newTask['type'] = 'POST';
-
-        // Lets set the time to trigger
-        $dateToTrigger = new \DateTime();
-        $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
-        $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
-        $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
-    }
-
-    public function reminderBetalenTask($resource, $task) {
-        $newTask = [];
-        $newTask['code'] = 'reminder_betalen';
+        $newTask['code'] = $code;
         $newTask['resource'] = $resource['@id'];
         $newTask['endpoint'] = $task['endpoint'];
         $newTask['type'] = 'POST';
@@ -325,7 +311,7 @@ class TrouwService
         foreach ($resource['properties']['getuigen'] as  $getuige) {
             $check = $this->commonGroundService->getResource($getuige);
 
-            if ($check['status'] != 'granted' && $check['status'] != 'submitted' && $ingestemd != false) {
+            if ($check['status'] != 'submitted' && $ingestemd != false) {
                 $ingestemd = false;
             }
         }
