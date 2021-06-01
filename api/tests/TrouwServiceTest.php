@@ -22,7 +22,7 @@ class TrouwServiceTest extends TestCase
             $test = 5;
         }
 
-        if ($test ==4) {
+        if ($test == 4) {
             $test = 5;
         } else {
             $test = 'string';
@@ -31,7 +31,5 @@ class TrouwServiceTest extends TestCase
         $alerts['test'] = $test;
 
         echo $test;
-
     }
-
 }
