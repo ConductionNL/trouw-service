@@ -187,11 +187,10 @@ class TrouwService
         $this->verlopenHuwelijkTask($resource, $task);
 
         //ingediend huwelijk
-        $this->ingediendHuwelijkTask($resource,$task);
+        $this->ingediendHuwelijkTask($resource, $task);
 
         // Reminder indienen
         $this->reminderIndienenTask($resource, $task);
-
 
         $dateToTrigger = new \DateTime();
         $dateToTrigger->add(new \DateInterval('P1W')); // verloopt over 1 week
@@ -267,10 +266,10 @@ class TrouwService
         $dateToTrigger->add(new \DateInterval('P2W')); // verloopt over 2 weken
         $newTask['dateToTrigger'] = $dateToTrigger->format('Y-m-d H:i:s');
         $this->commonGroundService->saveResource($newTask, ['component'=>'qc', 'type'=>'tasks']);
-
     }
 
-    public function reminderIndienenTask($resource, $task) {
+    public function reminderIndienenTask($resource, $task)
+    {
         $newTask = [];
         $newTask['code'] = 'reminder_indienen';
         $newTask['resource'] = $resource['@id'];
