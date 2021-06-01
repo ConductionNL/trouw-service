@@ -1,3 +1,9 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FConductionNL%2Ftrouw-service.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FConductionNL%2Ftrouw-service?ref=badge_shield)
+[![BCH compliance](https://bettercodehub.com/edge/badge/ConductionNL/trouw-service?branch=master)](https://bettercodehub.com/)
+[![StyleCI](https://github.styleci.io/repos/272374899/shield?branch=master)]
+[![Docker Image CI](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml/badge.svg)](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml)
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/trouw-service)](https://artifacthub.io/packages/search?repo=trouw-service)
+
 # trouw-service
 
 Description
