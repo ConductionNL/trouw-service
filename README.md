@@ -2,7 +2,7 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/ConductionNL/trouw-service?branch=master)](https://bettercodehub.com/results/ConductionNL/trouw-service)
 [![StyleCI](https://github.styleci.io/repos/272374899/shield?branch=master)](https://github.styleci.io/repos/272374899)
 [![Docker Image CI](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml/badge.svg)](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml)
-[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/trouw-service)](https://artifacthub.io/packages/search?repo=trouw-service)
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/trouw-service)](https://artifacthub.io/packages/helm/trouw-service/trouw-service)
 
 [![Componenten Catalogus](https://img.shields.io/badge/vng--componentencatalogus-posted-green)](https://componentencatalogus.commonground.nl/componenten/195?)
 
