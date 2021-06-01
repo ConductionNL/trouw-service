@@ -17,13 +17,18 @@ class TrouwServiceTest extends TestCase
     public function testSomething()
     {
         $test = 0;
+        $alerts = [];
         if ($test == 0) {
             $test = 5;
         }
 
         if ($test ==4) {
             $test = 5;
+        } else {
+            $test = 'string';
         }
+
+        $alerts['test'] = $test;
 
         echo $test;
 
