@@ -2,27 +2,31 @@
 
 namespace App\Tests;
 
-use App\Subscriber\WebHookSubscriber;
+use App\Service\TrouwService;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 class TrouwServiceTest extends TestCase
 {
-    private $webhookSubscriber;
-    private $view;
+    private $trouwService;
 
-    public function __construct(WebHookSubscriber $webHookSubscriber, ViewEvent $view)
+    public function __construct(TrouwService $trouwService)
     {
-        $this->webhookSubscriber = $webHookSubscriber;
-        $this->view = $view;
+        $this->trouwService = $trouwService;
     }
 
     public function testSomething()
     {
+        $test = 0;
+        if ($test == 0) {
+            $test = 5;
+        }
+
+        if ($test ==4) {
+            $test = 5;
+        }
+
+        echo $test;
+
     }
 
-    public function testWebhook()
-    {
-        $this->assertIsNotInt($this->webhookSubscriber->webHook($this->view));
-    }
 }
