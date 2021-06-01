@@ -2,21 +2,20 @@
 
 namespace App\Tests;
 
-use Conduction\CommonGroundBundle\Service\CommonGroundService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Subscriber\WebHookSubscriber;
 use PHPUnit\Framework\TestCase;
-use App\Service\TrouwService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 class TrouwServiceTest extends TestCase
 {
-    private $trouwService;
+    private $webhookSubscriber;
+    private $view;
 
 
-    public function __construct(TrouwService $trouwService)
+    public function __construct(WebHookSubscriber $webHookSubscriber, ViewEvent $view)
     {
-        $this->trouwService = $trouwService;
-
+        $this->webhookSubscriber = $webHookSubscriber;
+        $this->view = $view;
     }
 
     public function testSomething()
@@ -26,6 +25,6 @@ class TrouwServiceTest extends TestCase
 
     public function testWebhook()
     {
-
+        $this->assertIsNotInt($this->webhookSubscriber->webHook($this->view));
     }
 }
