@@ -179,14 +179,15 @@ class TrouwService
         $this->verlopenReserveringTask($resource, $task);
         $this->verlopenHuwelijkTask($resource, $task);
         $this->ingediendHuwelijkTask($resource, $task);
-        $this->reminderIndienenTask($resource, $task);;
+        $this->reminderIndienenTask($resource, $task);
         $this->reminderWeek($task, $resource, 'reminder_instemmen');
         $this->reminderWeek($task, $resource, 'reminder_betalen');
 
         return $resource;
     }
 
-    public function reminderWeek($resource, $task, $code) {
+    public function reminderWeek($resource, $task, $code)
+    {
         $newTask = [];
         $newTask['code'] = $code;
         $newTask['resource'] = $resource['@id'];
