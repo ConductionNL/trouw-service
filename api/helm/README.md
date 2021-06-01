@@ -29,11 +29,11 @@ helm install my-trouw-service trouw-service/trouw-service --version 0.1.0
 | `settings.domain` | The domain (if any) that you want to deploy to | `conduction.nl` |
 | `settings.subdomain` | the subdomain of the installation e.g. www. | `trouw-service` |
 | `settings.subpath` | Any subpath to follow the domain, like /api/v1 | `trouw-service` |
-| `settings.subpathRouting` | Whether to actualy use te supath | `false` |
+| `settings.subpathRouting` | Whether to actualy use te supath | false |
 | `settings.env` | Iether prod or dev, determens settings like error tracing | `dev` |
-| `settings.web` | Whether tot start an ingress inway | `false` |
+| `settings.web` | Whether tot start an ingress inway | false |
 | `settings.debug` | Run te apllication in debu mode | 1 |
-| `settings.cache` | Activate resource caching | `false` |
+| `settings.cache` | Activate resource caching | false |
 | `settings.corsAllowOrigin` | Set the cors header | `['*']` |
 | `settings.trustedHosts` | A regex function for whitelisting ip's | '^.+$' |
 | `settings.pullPolicy` | When to pull new images | `Always` |
