@@ -4,6 +4,11 @@
 [![Docker Image CI](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml/badge.svg)](https://github.com/ConductionNL/trouw-service/actions/workflows/dockerimage.yml)
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/trouw-service)](https://artifacthub.io/packages/search?repo=trouw-service)
 
+[![Componenten Catalogus](https://img.shields.io/badge/vng--componentencatalogus-posted-green)](https://componentencatalogus.commonground.nl/componenten/195?)
+
+
+
+
 # trouw-service
 
 Description
