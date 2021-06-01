@@ -5,7 +5,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-03-01T23:05:52.8834144Z"
+    created: "2021-06-01T07:58:33.6620027Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -37,10 +37,10 @@ entries:
   trouw-service:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-03-01T23:05:52.8709108Z"
+    created: "2021-06-01T07:58:33.618813Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 7e5e35837a3fe9e98021dd476a7e71fc9d21aecfb3837a53cfa9e79d022f5063
+    digest: 2e6c20608e31773ab76e9312c19c0fe66ccfba7642cc57ca3cf6783c32915909
     home: https://www.conduction.nl
     icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
     keywords:
@@ -60,4 +60,4 @@ entries:
     urls:
     - trouw-service-0.1.0.tgz
     version: 0.1.0
-generated: "2021-03-01T23:05:52.8611882Z"
+generated: "2021-06-01T07:58:33.6038205Z"
