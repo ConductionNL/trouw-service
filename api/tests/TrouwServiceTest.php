@@ -11,7 +11,6 @@ class TrouwServiceTest extends TestCase
     private $webhookSubscriber;
     private $view;
 
-
     public function __construct(WebHookSubscriber $webHookSubscriber, ViewEvent $view)
     {
         $this->webhookSubscriber = $webHookSubscriber;
@@ -20,7 +19,6 @@ class TrouwServiceTest extends TestCase
 
     public function testSomething()
     {
-
     }
 
     public function testWebhook()
