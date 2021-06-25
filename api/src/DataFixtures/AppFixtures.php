@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        if($this->parameterBag->get('app_build_all_fixtures') == 'false'){
+        if($this->parameterBag->get('app_build_all_fixtures') !== 'false'){
             $this->loadWrcFixtures();
         }
     }
