@@ -20,16 +20,22 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-
+        $this->loadWrcFixtures();
     }
 
-    public function createMunicipality(string $name, string $description, string $rsin): array
+    public function createMunicipality(string $name, string $description, string $rsin, string $email): array
     {
         $contact = [
-
+            'name' => $name,
+            'description' => $description,
+            'emails' => [
+                [
+                    'name' => "General e-mail for $name",
+                    'email' => $email,
+                ]
+            ]
         ];
         $this->commonGroundService->createResource($contact, ['component' => 'cc', 'type' => 'organizations']);
-
 
         $municipality = [
             'name' => $name,
@@ -43,7 +49,7 @@ class AppFixtures extends Fixture
     public function createMunicipalities(): array
     {
         return [
-            'utrecht' => $this->createMunicipality('Utrecht', 'Gemeente Utrecht', '002220647')
+            'utrecht' => $this->createMunicipality('Utrecht', 'Gemeente Utrecht', '002220647', 'info@utrecht.nl')
         ];
     }
 
@@ -353,7 +359,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $this->createBurgerzakenGroup($catalogue, $products);
     }
 
-    public function createWrcFixtures(): array
+    public function loadWrcFixtures(): array
     {
         $municipalities = $this->createMunicipalities();
 
