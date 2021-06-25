@@ -369,7 +369,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
     public function loadWrcFixtures(): array
     {
         $municipalities = $this->createMunicipalities();
-
+        var_dump($municipalities['utrecht']);
         $this->loadPdcFixtures($municipalities['utrecht']);
     }
 }
