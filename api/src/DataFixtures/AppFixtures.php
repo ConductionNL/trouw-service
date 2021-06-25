@@ -20,7 +20,9 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $this->loadWrcFixtures();
+        if($this->parameterBag->get('app_build_all_fixtures') == 'false'){
+            $this->loadWrcFixtures();
+        }
     }
 
     public function createMunicipality(string $name, string $description, string $rsin, string $email): array
