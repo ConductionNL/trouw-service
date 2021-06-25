@@ -23,6 +23,30 @@ class AppFixtures extends Fixture
 
     }
 
+    public function createMunicipality(string $name, string $description, string $rsin): array
+    {
+        $contact = [
+
+        ];
+        $this->commonGroundService->createResource($contact, ['component' => 'cc', 'type' => 'organizations']);
+
+
+        $municipality = [
+            'name' => $name,
+            'description' => $description,
+            'rsin' => $rsin,
+            'contact' => $contact['@id'],
+        ];
+        return $this->commonGroundService->createResource($municipality, ['component' => 'wrc', 'type' => 'organizations']);
+    }
+
+    public function createMunicipalities(): array
+    {
+        return [
+            'utrecht' => $this->createMunicipality('Utrecht', 'Gemeente Utrecht', '002220647')
+        ];
+    }
+
     public function createCatalogue(array $municipality): array
     {
         $catalogue = [
@@ -328,4 +352,13 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $this->createTrouwproductenGroup($catalogue, $products);
         $this->createBurgerzakenGroup($catalogue, $products);
     }
+
+    public function createWrcFixtures(): array
+    {
+        $municipalities = $this->createMunicipalities();
+
+        $this->loadPdcFixtures($municipalities['utrecht']);
+    }
+
+
 }
