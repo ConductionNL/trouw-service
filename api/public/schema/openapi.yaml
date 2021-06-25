@@ -11,9 +11,8 @@ info:
     - Repository: [online](https://github.com/ConductionNL/trouw-service) / [zip](https://github.com/ConductionNL/trouw-service/archive/master.zip)
     - Docker Image: [online]() 
     - Datamodel: [postman](schema/trouw-service.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
-    
+
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
-    
 paths:
   /audit_trails:
     get:
@@ -3485,12 +3484,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-06-01 07:56:30'
+        example: '2021-06-23 12:26:18'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-06-01 07:56:30'
+        example: '2021-06-23 12:26:18'
     required: []
   AuditTrail-write:
     properties:
@@ -3538,12 +3537,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-06-01 07:56:30'
+        example: '2021-06-23 12:26:18'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-06-01 07:56:30'
+        example: '2021-06-23 12:26:18'
     required: []
   ChangeLog-write:
     properties:
@@ -3556,21 +3555,20 @@ definitions:
 tags:
   -
     name: WebHook
-    description: |
-      
-      
-      
+    description: |+
+
+
   -
     name: AuditTrail
-    description: |
+    description: |-
       An resource representing a log line.
-      
+
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
     name: ChangeLog
-    description: |
+    description: |-
       An resource representing a log line.
-      
+
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
 securityDefinitions:
   JWT-Oauth:
