@@ -1,19 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1624451192">
-  <project timestamp="1624451192">
+<coverage generated="1624608037">
+  <project timestamp="1624608037">
     <file name="/srv/api/src/DataFixtures/AppFixtures.php">
       <class name="App\DataFixtures\AppFixtures" namespace="global">
-        <metrics complexity="3" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="8" coveredelements="0"/>
+        <metrics complexity="12" methods="12" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="0" elements="59" coveredelements="0"/>
       </class>
       <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="17" type="stmt" count="0"/>
       <line num="18" type="stmt" count="0"/>
       <line num="19" type="stmt" count="0"/>
-      <line num="21" type="method" name="load" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="21" type="method" name="load" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="24" type="stmt" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="27" type="stmt" count="0"/>
-      <metrics loc="28" ncloc="27" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="8" coveredelements="0"/>
+      <line num="26" type="method" name="createCatalogue" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="29" type="stmt" count="0"/>
+      <line num="30" type="stmt" count="0"/>
+      <line num="32" type="stmt" count="0"/>
+      <line num="35" type="method" name="createBurgerzakenGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="38" type="stmt" count="0"/>
+      <line num="39" type="stmt" count="0"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="41" type="stmt" count="0"/>
+      <line num="44" type="stmt" count="0"/>
+      <line num="47" type="method" name="createTrouwproductenGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <line num="51" type="stmt" count="0"/>
+      <line num="52" type="stmt" count="0"/>
+      <line num="53" type="stmt" count="0"/>
+      <line num="56" type="stmt" count="0"/>
+      <line num="59" type="method" name="createTrouwambtenarenGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="62" type="stmt" count="0"/>
+      <line num="64" type="stmt" count="0"/>
+      <line num="69" type="stmt" count="0"/>
+      <line num="70" type="stmt" count="0"/>
+      <line num="73" type="stmt" count="0"/>
+      <line num="76" type="method" name="createTrouwlocatiesGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="79" type="stmt" count="0"/>
+      <line num="81" type="stmt" count="0"/>
+      <line num="86" type="stmt" count="0"/>
+      <line num="87" type="stmt" count="0"/>
+      <line num="90" type="stmt" count="0"/>
+      <line num="93" type="method" name="createCeremoniesGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="96" type="stmt" count="0"/>
+      <line num="98" type="stmt" count="0"/>
+      <line num="99" type="stmt" count="0"/>
+      <line num="100" type="stmt" count="0"/>
+      <line num="103" type="stmt" count="0"/>
+      <line num="106" type="method" name="createExtrasGroup" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="109" type="stmt" count="0"/>
+      <line num="111" type="stmt" count="0"/>
+      <line num="112" type="stmt" count="0"/>
+      <line num="113" type="stmt" count="0"/>
+      <line num="116" type="stmt" count="0"/>
+      <line num="119" type="method" name="createProduct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="121" type="stmt" count="0"/>
+      <line num="122" type="stmt" count="0"/>
+      <line num="123" type="stmt" count="0"/>
+      <line num="126" type="method" name="createCeremonies" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="128" type="stmt" count="0"/>
+      <line num="129" type="stmt" count="0"/>
+      <line num="131" type="stmt" count="0"/>
+      <line num="145" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="162" type="stmt" count="0"/>
+      <line num="164" type="method" name="loadPdcFixtures" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="167" type="stmt" count="0"/>
+      <metrics loc="168" ncloc="168" classes="1" methods="12" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="0" elements="59" coveredelements="0"/>
     </file>
     <file name="/srv/api/src/Entity/WebHook.php">
       <class name="App\Entity\WebHook" namespace="global">
@@ -340,6 +391,6 @@
       <line num="44" type="stmt" count="0"/>
       <metrics loc="45" ncloc="45" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="0" elements="13" coveredelements="0"/>
     </file>
-    <metrics files="6" loc="727" ncloc="589" classes="6" methods="41" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="263" coveredstatements="0" elements="304" coveredelements="0"/>
+    <metrics files="6" loc="867" ncloc="730" classes="6" methods="51" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="304" coveredstatements="0" elements="355" coveredelements="0"/>
   </project>
 </coverage>
