@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        if ($this->parameterBag->get('app_build_all_fixtures') == 'false') {
+        if ($this->parameterBag->get('app_build_all_fixtures') == 'false' || !$this->parameterBag->get('app_build_all_fixtures')) {
             $this->loadWrcFixtures();
         }
     }
@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
                 ],
             ],
         ];
-        $this->commonGroundService->createResource($contact, ['component' => 'cc', 'type' => 'organizations']);
+        $contact = $this->commonGroundService->createResource($contact, ['component' => 'cc', 'type' => 'organizations']);
 
         $municipality = [
             'name'        => $name,
@@ -487,7 +487,6 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
     public function loadWrcFixtures(): array
     {
         $municipalities = $this->createMunicipalities();
-
         $this->loadPdcFixtures($municipalities['utrecht']);
     }
 }
