@@ -727,10 +727,178 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         return true;
     }
 
+    public function createHuwelijkProcessType(array $municipality, array $requestType): array
+    {
+        $processType = [
+            'audience'              => 'public',
+            'icon'                  => 'fal fa-rings-wedding',
+            'sourceOrganization'    => $municipality['@id'],
+            'name'                  => 'Huwelijk / Partnerschap',
+            'description'           => 'Huwelijk / Partnerschap',
+            'requestType'           => $requestType['@id'],
+        ];
+        return $this->commonGroundService->createResource($processType, ['component' => 'ptc', 'type' => 'process_types']);
+    }
+
+    public function createSection(array $resource): array
+    {
+        return $this->commonGroundService->createResource($resource, ['component' => 'ptc', 'type' => 'sections']);
+    }
+
+    public function createSections(array $properties, array $stages): array
+    {
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[0]['id']}",
+            'properties' => [$properties[0]['@id']],
+            'name' => 'Soort huwelijk',
+            'description' => 'Trouwen of partnerschap'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[0]['id']}",
+            'properties' => [$properties[2]['@id']],
+            'name' => 'Soort ceremonie',
+            'description' => 'Trouwen of partnerschap'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[0]['id']}",
+            'properties' => [$properties[1]['@id']],
+            'name' => 'Partner',
+            'description' => 'Met wie wilt u trouwen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[1]['id']}",
+            'properties' => [$properties[4]['@id']],
+            'name' => 'Locatie',
+            'description' => 'Waar wilt u trouwen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[1]['id']}",
+            'properties' => [$properties[5]['@id']],
+            'name' => 'Ambtenaar',
+            'description' => 'Door wie wilt u getrouwd worden?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[2]['id']}",
+            'properties' => [$properties[3]['@id']],
+            'name' => 'Datum',
+            'description' => 'Wanneer wilt u trouwen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[3]['id']}",
+            'properties' => [$properties[6]['@id']],
+            'name' => 'Getuigen',
+            'description' => 'Wie zijn uw getuigen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[10]['@id']],
+            'name' => 'Contactgegevens',
+            'description' => 'Wat zijn uw contactgegevens?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[8]['@id']],
+            'name' => 'Naamsgebruik',
+            'description' => 'Wat zijn uw voorkeuren qua naamsgebruik?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[9]['@id']],
+            'name' => 'Taal',
+            'description' => 'Bent u beiden de Nederlandse taal machtig?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[7]['@id']],
+            'name' => 'Extras',
+            'description' => 'Wilt u nog extras toevoegen aan uw huwelijk?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[10]['@id']],
+            'name' => 'Opmerkingen',
+            'description' => 'Heeft u nog opmerkingen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[11]['@id']],
+            'name' => 'Melding voorgenomen huwelijk',
+            'description' => 'Wilt u meteen een melding voorgenomen huwelijk doen?'
+        ]);
+        $sections[] = $this->createSection([
+            'stage' => "/stages/{$stages[4]['id']}",
+            'properties' => [$properties[12]['@id']],
+            'name' => 'Betaling',
+            'description' => 'Doe hier uw betaling'
+        ]);
+    }
+
+    public function createStages(array $processType): array
+    {
+        $stage = [
+            'name'          => 'Hoe wilt u trouwen?',
+            'icon'          => 'fal fa-users',
+            'slug'          => 'huwelijk-ceremonie',
+            'description'   => 'Hoe wilt u trouwen?',
+            'processType'   => "/process_types/{$processType['id']}",
+        ];
+        $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
+
+        $stage = [
+            'name'          => 'Waar wilt u trouwen?',
+            'icon'          => 'fal fa-users',
+            'slug'          => 'ambtenaar-locatie',
+            'description'   => 'Waar wilt u trouwen?',
+            'processType'   => "/process_types/{$processType['id']}",
+        ];
+        $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
+
+        $stage = [
+            'name'          => 'Wanneer wilt u trouwen?',
+            'icon'          => 'fal fa-users',
+            'slug'          => 'datum',
+            'description'   => 'Wanneer wilt u trouwen?',
+            'processType'   => "/process_types/{$processType['id']}",
+        ];
+        $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
+
+        $stage = [
+            'name'          => 'Wie zijn uw getuigen?',
+            'icon'          => 'fal fa-users',
+            'slug'          => 'getuigen',
+            'description'   => 'Wie zijn uw getuigen?',
+            'processType'   => "/process_types/{$processType['id']}",
+        ];
+        $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
+
+        $stage = [
+            'name'          => 'Overige gegevens',
+            'icon'          => 'fal fa-users',
+            'slug'          => 'overig',
+            'description'   => 'Overige gegevens',
+            'processType'   => "/process_types/{$processType['id']}",
+        ];
+        $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
+
+        return $stages;
+    }
+
+    public function loadPtcFixtures(array $municipality, array $requestType, array $properties): bool
+    {
+        $processType = $this->createHuwelijkProcessType($municipality, $requestType);
+        $stages = $this->createStages($processType);
+        $sections = $this->createSections($properties, $stages);
+
+        return true;
+    }
+
     public function loadWrcFixtures(): array
     {
         $municipalities = $this->createMunicipalities();
         $this->loadPdcFixtures($municipalities['utrecht']);
+        $this->loadVtcFixtures($municipalities['utrecht']);
+
+        return $municipalities;
     }
 
     public function loadVtcFixtures($municipality): array
@@ -738,5 +906,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $requestType = $this->createRequestType($municipality);
         $properties = $this->createProperties($requestType);
 
+        $this->loadPtcFixtures($municipality, $requestType, $properties);
+
+        return $requestType;
     }
 }
