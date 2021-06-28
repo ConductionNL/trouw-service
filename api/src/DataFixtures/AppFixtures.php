@@ -729,7 +729,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
     public function createHuwelijkProcessType(array $municipality, array $requestType): array
     {
         $processType = [
-            'audience'              => 'public',
+//            'audience'              => 'public',
             'icon'                  => 'fal fa-rings-wedding',
             'sourceOrganization'    => $municipality['@id'],
             'name'                  => 'Huwelijk / Partnerschap',
