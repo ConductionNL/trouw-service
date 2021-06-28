@@ -335,8 +335,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $locations = [];
         $locations[] = $this->createProduct(
             [
-                'name'        => 'Balie',
-                'description' => '',
+                'name'                => 'Balie',
+                'description'         => '',
                 'type'                => 'simple',
                 'price'               => '0.00',
                 'priceCurrency'       => 'EUR',
@@ -366,8 +366,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         );
         $locations[] = $this->createProduct(
             [
-                'name'        => 'Stadhuis kleine zaal',
-                'description' => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
+                'name'                => 'Stadhuis kleine zaal',
+                'description'         => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
                 'type'                => 'simple',
                 'price'               => '0.00',
                 'priceCurrency'       => 'EUR',
@@ -381,8 +381,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         );
         $locations[] = $this->createProduct(
             [
-                'name'        => 'Stadhuis grote zaal',
-                'description' => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
+                'name'                => 'Stadhuis grote zaal',
+                'description'         => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
                 'type'                => 'simple',
                 'price'               => '0.00',
                 'priceCurrency'       => 'EUR',
@@ -396,8 +396,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         );
         $locations[] = $this->createProduct(
             [
-                'name'        => 'Vrije locatie',
-                'description' => 'Vrije locatie',
+                'name'                => 'Vrije locatie',
+                'description'         => 'Vrije locatie',
                 'type'                => 'simple',
                 'price'               => '0.00',
                 'priceCurrency'       => 'EUR',
