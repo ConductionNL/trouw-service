@@ -831,6 +831,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'name'        => 'Betaling',
             'description' => 'Doe hier uw betaling',
         ]);
+
+        return $sections;
     }
 
     public function createStages(array $processType): array
