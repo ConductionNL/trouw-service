@@ -296,6 +296,36 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             ],
             $catalogue
         );
+        $ambtenaren[] = $this->createProduct(
+            [
+                'name'                => 'Toegewezen Trouwambtenaar',
+                'description'         => 'Uw trouwambtenaar wordt toegewezen, over enkele dagen krijgt u bericht van uw toegewezen trouwambtenaar!',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'logo'                => 'https://dev.huwelijksplanner.online/images/content/ambtenaar/trouwambtenaar.jpg',
+                'movie'               => 'https://www.youtube.com/embed/RkBZYoMnx5w',
+            ],
+            $catalogue
+        );
+        $ambtenaren[] = $this->createProduct(
+            [
+                'name'                => 'Stagair Trouwambtenaar',
+                'description'         => 'Een stagair trouwambtenaar wordt aan uw huwelijk toegewezen.',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'internal',
+                'logo'                => 'https://dev.huwelijksplanner.online/images/content/ambtenaar/trouwambtenaar.jpg',
+                'movie'               => 'https://www.youtube.com/embed/RkBZYoMnx5w',
+            ],
+            $catalogue
+        );
 
         return $ambtenaren;
     }
@@ -303,6 +333,21 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
     public function createLocations(array $catalogue): array
     {
         $locations = [];
+        $locations[] = $this->createProduct(
+            [
+                'name'        => 'Balie',
+                'description' => '',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'logo'                => 'https://www.utrecht.nl/fileadmin/uploads/documenten/9.digitaalloket/Burgerzaken/Trouwzaal-Stadskantoor-Utrecht.jpg',
+                'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
+            ],
+            $catalogue
+        );
         $locations[] = $this->createProduct(
             [
                 'name'        => 'Stadskantoor',
@@ -316,7 +361,50 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'taxPercentage'       => 0,
                 'requiresAppointment' => false,
                 'audience'            => 'public',
-                'logo'                => 'https://huwelijksplanner.online/images/content/ambtenaar/erik.jpg',
+            ],
+            $catalogue
+        );
+        $locations[] = $this->createProduct(
+            [
+                'name'        => 'Stadhuis kleine zaal',
+                'description' => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'logo'                => 'https://www.utrecht.nl/fileadmin/uploads/documenten/9.digitaalloket/Burgerzaken/kleine-trouwzaal-stadhuis-utrecht.jpg',
+                'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
+            ],
+            $catalogue
+        );
+        $locations[] = $this->createProduct(
+            [
+                'name'        => 'Stadhuis grote zaal',
+                'description' => 'Deze uiterst sfeervolle trouwzaal maakt de dag compleet',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'logo'                => 'https://www.utrecht.nl/fileadmin/uploads/documenten/9.digitaalloket/Burgerzaken/grote-trouwzaal-stadhuis-utrecht.jpg',
+                'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
+            ],
+            $catalogue
+        );
+        $locations[] = $this->createProduct(
+            [
+                'name'        => 'Vrije locatie',
+                'description' => 'Vrije locatie',
+                'type'                => 'simple',
+                'price'               => '0.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'logo'                => 'https://user-images.githubusercontent.com/49227194/80487135-9baca180-895c-11ea-82a4-92967a1551c2.png',
                 'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
             ],
             $catalogue
@@ -334,6 +422,34 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'description'         => 'Een mooi in leer gebonden herinnering aan uw huwelijk',
                 'type'                => 'simple',
                 'price'               => '30.20',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
+            ],
+            $catalogue
+        );
+        $extras[] = $this->createProduct(
+            [
+                'name'                => 'Ringen',
+                'description'         => 'Het uitwisselen van ringen tijdens de huwelijksceremonie',
+                'type'                => 'simple',
+                'price'               => '10.00',
+                'priceCurrency'       => 'EUR',
+                'taxPercentage'       => 0,
+                'requiresAppointment' => false,
+                'audience'            => 'public',
+                'movie'               => 'https://www.youtube.com/embed/DAaoMvj1Qbs',
+            ],
+            $catalogue
+        );
+        $extras[] = $this->createProduct(
+            [
+                'name'                => 'Geen extra\'s',
+                'description'         => 'U wilt geen extra producten bij uw huwelijk',
+                'type'                => 'simple',
+                'price'               => '0.00',
                 'priceCurrency'       => 'EUR',
                 'taxPercentage'       => 0,
                 'requiresAppointment' => false,
@@ -364,6 +480,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $products = array_merge($ceremonies, $ambtenaren, $locations, $extras);
         $this->createTrouwproductenGroup($catalogue, $products);
         $this->createBurgerzakenGroup($catalogue, $products);
+
+        return true;
     }
 
     public function loadWrcFixtures(): array
