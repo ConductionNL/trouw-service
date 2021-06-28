@@ -464,7 +464,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
 
     public function createProperty(array $stage): array
     {
-        return $this->commonGroundService->createResource($stage, ['component' => 'vtc', 'type' => 'property']);
+        return $this->commonGroundService->createResource($stage, ['component' => 'vtc', 'type' => 'properties']);
     }
 
     public function createRequestType($municipality): array
