@@ -511,7 +511,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'slug'        => 'partner',
                 'type'        => 'array',
                 'format'      => 'url',
-                'iri'         => ' irc/assents',
+                'iri'         => 'irc/assents',
                 'minItems'    => 2,
                 'maxItems'    => 2,
                 'required'    => true,
