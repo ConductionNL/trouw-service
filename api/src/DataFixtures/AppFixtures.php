@@ -555,7 +555,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'slug'   => 'plechtigheid',
                 'type'   => 'string',
                 'format' => 'url',
-                'iri'    => ' pdc/offer',
+                'iri'    => 'pdc/offer',
                 'query'  => [
                     'audience'                          => 'public',
                     'products.groups.sourceOrganzation' => $requestType['organization'],
@@ -587,7 +587,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'slug'   => 'locatie',
                 'type'   => 'string',
                 'format' => 'url',
-                'iri'    => ' pdc/offer',
+                'iri'    => 'pdc/offer',
                 'query'  => [
                     'audience'                          => 'public',
                     'products.groups.sourceOrganzation' => $requestType['organization'],
@@ -606,7 +606,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'slug'   => 'ambtenaar',
                 'type'   => 'string',
                 'format' => 'url',
-                'iri'    => ' pdc/offer',
+                'iri'    => 'pdc/offer',
                 'query'  => [
                     'audience'                          => 'public',
                     'products.groups.sourceOrganzation' => $requestType['organization'],
@@ -641,7 +641,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'slug'   => 'extra',
                 'type'   => 'array',
                 'format' => 'url',
-                'iri'    => ' pdc/offer',
+                'iri'    => 'pdc/offer',
                 'query'  => [
                     'audience'                          => 'public',
                     'products.groups.sourceOrganzation' => $requestType['organization'],
