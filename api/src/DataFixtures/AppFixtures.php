@@ -69,7 +69,8 @@ class AppFixtures extends Fixture
     public function addProductsToGroup(array $products, array $group): array
     {
         foreach ($products as $product) {
-            $group['products'][] = "/products/". $product['id'];
+            var_dump($product);
+            $group['products'][] = "/products/".$product['id'];
         }
 
         return $group;
@@ -84,7 +85,7 @@ class AppFixtures extends Fixture
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
@@ -98,7 +99,7 @@ class AppFixtures extends Fixture
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
@@ -116,7 +117,7 @@ class AppFixtures extends Fixture
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
@@ -134,7 +135,7 @@ class AppFixtures extends Fixture
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
@@ -147,7 +148,7 @@ class AppFixtures extends Fixture
             'sourceOrganization' => $catalogue['sourceOrganization'],
             'catalogue'          => $catalogue['@id'],
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
@@ -161,7 +162,7 @@ class AppFixtures extends Fixture
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $this->addProductsToGroup($products, $group);
+        $group = $this->addProductsToGroup($products, $group);
 
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
