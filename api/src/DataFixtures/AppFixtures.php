@@ -166,12 +166,39 @@ class AppFixtures extends Fixture
         return $this->commonGroundService->createResource($group, ['component' => 'pdc', 'type' => 'groups']);
     }
 
-    public function createProduct(array $product, array $catalogue): array
+    public function createOffer(array $product, array $productRaw): array
     {
-        $product['catalogue'] = $catalogue['@id'];
-        $product['sourceOrganization'] = $catalogue['sourceOrganization'];
 
-        return $this->commonGroundService->createResource($product, ['component' => 'pdc', 'type' => 'products']);
+        $offer = [
+            'name'          =>  $productRaw['name'],
+            'description'   =>  $productRaw['description'],
+            'price'         =>  $productRaw['price'],
+            'priceCurrency' =>  $productRaw['priceCurrency'],
+            'audience'      =>  $productRaw['audience'],
+            'offeredBy'     =>  $product['sourceOrganization'],
+            'products'      =>  ["/products/{$product['id']}"],
+        ];
+
+        return $this->commonGroundService->createResource($offer, ['component' => 'pdc', 'type' => 'offers']);
+    }
+
+    public function createProduct(array $productRaw, array $catalogue): array
+    {
+        $product = [
+            'name'                  =>  $productRaw['name'],
+            'description'           =>  $productRaw['description'],
+            'catalogue'             =>  $catalogue['@id'],
+            'sourceOrganization'    =>  $catalogue['sourceOrganization'],
+            'type'                  =>  $productRaw['type'],
+            'requiresAppointment'   =>  $productRaw['requiresAppointment'],
+            'audience'              =>  $productRaw['audience'],
+            'taxPercentage'         =>  $productRaw['taxPercentage'],
+        ];
+
+        $product = $this->commonGroundService->createResource($product, ['component' => 'pdc', 'type' => 'products']);
+        $this->createOffer($product, $productRaw);
+
+        return $product;
     }
 
     public function createCeremonies(array $catalogue): array
