@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
     public function addProductsToGroup(array $products, array $group): array
     {
         foreach ($products as $product) {
-            $group['products'][] = $product['@id'];
+            $group['products'][] = "/products/". $product['id'];
         }
 
         return $group;
