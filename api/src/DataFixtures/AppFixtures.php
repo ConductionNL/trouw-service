@@ -842,7 +842,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon'          => 'fal fa-users',
             'slug'          => 'huwelijk-ceremonie',
             'description'   => 'Hoe wilt u trouwen?',
-            'processType'   => "/process_types/{$processType['id']}",
+            'process'   => "/process_types/{$processType['id']}",
         ];
         $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
 
@@ -851,7 +851,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon'          => 'fal fa-users',
             'slug'          => 'ambtenaar-locatie',
             'description'   => 'Waar wilt u trouwen?',
-            'processType'   => "/process_types/{$processType['id']}",
+            'process'   => "/process_types/{$processType['id']}",
         ];
         $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
 
@@ -860,7 +860,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon'          => 'fal fa-users',
             'slug'          => 'datum',
             'description'   => 'Wanneer wilt u trouwen?',
-            'processType'   => "/process_types/{$processType['id']}",
+            'process'   => "/process_types/{$processType['id']}",
         ];
         $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
 
@@ -869,7 +869,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon'          => 'fal fa-users',
             'slug'          => 'getuigen',
             'description'   => 'Wie zijn uw getuigen?',
-            'processType'   => "/process_types/{$processType['id']}",
+            'process'   => "/process_types/{$processType['id']}",
         ];
         $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
 
@@ -878,7 +878,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon'          => 'fal fa-users',
             'slug'          => 'overig',
             'description'   => 'Overige gegevens',
-            'processType'   => "/process_types/{$processType['id']}",
+            'process'   => "/process_types/{$processType['id']}",
         ];
         $stages[] = $this->commonGroundService->createResource($stage, ['component' => 'ptc', 'type' => 'stages']);
 
