@@ -1247,7 +1247,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
                 'givenName' => true,
                 'familyName' => true,
                 'birthday' => true,
-                'birthplace' => true
+                'birthplace' => false
             ]
         ]);
 
