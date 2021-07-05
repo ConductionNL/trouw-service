@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
     {
         return [
             'utrecht' => $this->createMunicipality('Utrecht', 'Gemeente Utrecht', '002220647', 'info@utrecht.nl'),
+            'westFriesland' => $this->createMunicipality('West Friesland', 'Gemeente West Friesland', '002224444', 'info@westfriesland.nl'),
         ];
     }
 
@@ -912,6 +913,11 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         return $stages;
     }
 
+    public function createStage(array $resource): array
+    {
+        return $this->commonGroundService->createResource($resource, ['component' => 'ptc', 'type' => 'stages']);
+    }
+
     public function loadPtcFixtures(array $municipality, array $requestType, array $properties): bool
     {
         $processType = $this->createHuwelijkProcessType($municipality, $requestType);
@@ -926,6 +932,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $municipalities = $this->createMunicipalities();
         $this->loadPdcFixtures($municipalities['utrecht']);
         $this->loadVtcFixtures($municipalities['utrecht']);
+        $this->loadBegravenFixtures($municipalities['westFriesland']);
 
         return $municipalities;
     }
@@ -938,5 +945,425 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $this->loadPtcFixtures($municipality, $requestType, $properties);
 
         return $requestType;
+    }
+
+    public function createCalendar(array $resource): array
+    {
+        return $this->commonGroundService->createResource($resource, ['component' => 'arc', 'type' => 'calendars']);
+    }
+
+    public function createCemetery(array $resource): array
+    {
+        return $this->commonGroundService->createResource($resource, ['component' => 'grc', 'type' => 'cemeteries']);
+    }
+
+    public function loadBegravenFixtures($municipality)
+    {
+        //create calendar
+        $calendar = $this->createCalendar([
+            'organization' => $municipality['@id'],
+            'name' => 'Begraven Calendar',
+            'description' => 'Kalender voor het begraven proces',
+            'timeZone' => 'CET'
+        ]);
+
+        //create catalogue
+        $catalogue = [
+            'name'               => 'Gemeente West Friesland',
+            'sourceOrganization' => $municipality['@id'],
+        ];
+
+        $catalogue = $this->commonGroundService->createResource($catalogue, ['component' => 'pdc', 'type' => 'catalogues']);
+
+        //create grave types
+        $graveTypes = [];
+        $graveTypes[] = $this->createProduct([
+            'name' => 'Particulier graf 10 jaar',
+            'description' => 'Particulier graf 10 jaar',
+            'type' => 'simple',
+            'requiredAppointment' => false,
+            'audience' => 'public',
+            'price'               => '544.10',
+            'priceCurrency'       => 'EUR',
+            'taxPercentage'       => 0,
+        ], $catalogue);
+
+        $graveTypes[] = $this->createProduct([
+            'name' => 'Particulier graf 20 jaar',
+            'description' => 'Particulier graf 20 jaar',
+            'type' => 'simple',
+            'requiredAppointment' => false,
+            'audience' => 'public',
+            'price'               => '1087.95',
+            'priceCurrency'       => 'EUR',
+            'taxPercentage'       => 0,
+        ], $catalogue);
+
+        $graveTypesGroup = [
+            'name'               => 'Grafsoorten',
+            'description'        => 'Alle Grafsoorten',
+            'sourceOrganization' => $catalogue['sourceOrganization'],
+            'catalogue'          => $catalogue['@id'],
+
+        ];
+        $graveTypesGroup = $this->addProductsToGroup($graveTypes, $graveTypesGroup);
+
+        $graveTypesGroup = $this->commonGroundService->createResource($graveTypesGroup, ['component' => 'pdc', 'type' => 'groups']);
+
+        //create grave articles
+        $graveArticles = [];
+
+        $graveArticles[] = $this->createProduct([
+            'name' => 'Gebruik graflift',
+            'description' => 'Gebruik graflift',
+            'type' => 'simple',
+            'requiredAppointment' => false,
+            'audience' => 'public',
+            'price'               => '0',
+            'priceCurrency'       => 'EUR',
+            'taxPercentage'       => 0,
+        ], $catalogue);
+
+        $graveArticles[] = $this->createProduct([
+            'name' => 'Kist dalen',
+            'description' => 'Kist dalen',
+            'type' => 'simple',
+            'requiredAppointment' => false,
+            'audience' => 'public',
+            'price'               => '0',
+            'priceCurrency'       => 'EUR',
+            'taxPercentage'       => 0,
+        ], $catalogue);
+
+        $graveArticlesGroup = [
+            'name'               => 'Grafartikelen',
+            'description'        => 'Alle Grafartikelen',
+            'sourceOrganization' => $catalogue['sourceOrganization'],
+            'catalogue'          => $catalogue['@id'],
+
+        ];
+        $graveArticlesGroup = $this->addProductsToGroup($graveTypes, $graveArticlesGroup);
+
+        $graveArticlesGroup = $this->commonGroundService->createResource($graveArticlesGroup, ['component' => 'pdc', 'type' => 'groups']);
+
+        //create grc cemetery
+        $cemetery = $this->createCemetery([
+            'reference' => 'Begraafplaats in Oosterleek',
+            'organization' => $municipality['@id'],
+            'calendar' => $calendar['@id'],
+            'graveTypes' => $graveTypesGroup['@id']
+        ]);
+
+        //vtc fixtures
+        $requestType = [
+            'name'         => 'Begrafenisplanner',
+            'description'  => 'Met dit verzoek kunt u een begrafenis plannen',
+            'organization' => $municipality['@id'],
+            'icon'         => 'fa fa-headstone',
+        ];
+
+        $requestType = $this->commonGroundService->createResource($requestType, ['component' => 'vtc', 'type' => 'request_types']);
+
+        $properties = [];
+
+        //0
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Gemeente',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'string',
+            'iri' => 'wrc/organizations',
+            'required' => true
+        ]);
+
+        //1
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Begraafplaats',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'query' => ['organization' => 'request.properties.gemeente'],
+            'format' => 'uri',
+            'iri' => 'grc/cemetery',
+            'required' => true
+        ]);
+
+        //2
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Soort graf',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'query' => ['audience' => 'public', 'products.groups.name' => 'Grafsoorten', 'products.groups.sourceOrganization' => '{{ request.properties.gemeente }}'],
+            'format' => 'uri',
+            'iri' => 'pdc/offer',
+            'required' => true
+        ]);
+
+        //3
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Kistmaat',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'enum' => ['De kist valt binnen de standaard afmetingen van 55cm bij 200cm.', 'De kist is groter dan de standaard afmetingen van 55cm bij 200cm.'],
+            'format' => 'radio',
+            'required' => true
+        ]);
+
+        //4
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Kistmaat',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'enum' => ['De kist valt binnen de standaard afmetingen van 55cm bij 200cm.', 'De kist is groter dan de standaard afmetingen van 55cm bij 200cm.'],
+            'format' => 'radio',
+            'required' => true
+        ]);
+
+        //5
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Opmerkingen',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'textarea',
+            'required' => false
+        ]);
+
+        //6
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Datum',
+            'icon' => 'fas fa-calendar-day',
+            'type' => 'string',
+            'format' => 'calendar',
+            'description' => 'Selecteer een datum voor de voltrekking',
+            'required' => true,
+            'maxDate' => 'P21D',
+            'configuration' => [
+                'startingHour' => 'P9H',
+                'endingHour' => 'P17H',
+                'optionDuration' => 'P2H'
+            ]
+        ]);
+
+        //7
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Artikelen',
+            'icon' => 'fa fa-headstone',
+            'type' => 'array',
+            'query' => ['audience' => 'public', 'products.groups.name' => 'Grafartikelen', 'products.groups.sourceOrganization' => '{{ request.properties.gemeente }}'],
+            'format' => 'uri',
+            'iri' => 'pdc/offer',
+            'required' => false
+        ]);
+
+        //8
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Grafnummer of grafnaam',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'text',
+            'description' => 'In het geval van een bijzetting dient u het graf waarin dient te worden bijgezet te identificeren met een grafnummer of naam van reeds geplaatste overledenen',
+            'required' => false
+        ]);
+
+        //9
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Aanvrager / Rechthebebnde',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'irc/assents',
+            'required' => true,
+            'maxItems' => 1,
+        ]);
+
+        //10
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Contactpersoon',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'cc/people',
+            'required' => true,
+        ]);
+
+        //11
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Factuur persoon',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'cc/people',
+            'description' => 'Naar wie moet de factuur worden gestuurd voor deze begrafenis',
+            'configuration' => [
+                'email' => true,
+                'telephone' => true,
+                'givenName' => true,
+                'familyName' => true,
+                'address' => true,
+            ]
+        ]);
+
+        //12
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Factuur adres',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'cc/addresses',
+            'description' => 'Naar wie moet de factuur worden gestuurd voor deze begrafenis',
+        ]);
+
+        //13
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Overledene met bsn',
+            'name' => 'overledeneBsn',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'string',
+            'iri' => 'brp/ingeschreveneprsoon',
+        ]);
+
+        //13
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Overledene zonder bsn',
+            'name' => 'overledeneNoBsn',
+            'icon' => 'fa fa-headstone',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'cc/people',
+            'configuration' => [
+                'email' => false,
+                'telephone' => false,
+                'givenName' => true,
+                'familyName' => true,
+                'birthday' => true,
+                'birthplace' => true
+            ]
+        ]);
+
+        //ptc fixtures
+
+        $processType = [
+            'icon'                  => 'fas fa-monument',
+            'login'                 => 'always',
+            'name'                  => 'Aanvragen begrafenis',
+            'description'           => 'Plan een begrafenis op een gekozen begraafplaats',
+            'sourceOrganization'    => $municipality['@id'],
+            'requestType'           => $requestType['@id'],
+        ];
+
+        $processType =  $this->commonGroundService->createResource($processType, ['component' => 'ptc', 'type' => 'process_types']);
+
+        //gemeente stage
+        $stage = $this->createStage([
+            'name' => 'Gemeente',
+            'orderNumber' => 1,
+            'slug' => 'gemeente',
+            'description' => 'De gemeente waarin de begrafenis plaats moet vinden',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[0]['@id']],
+            'name'        => 'Gemeente',
+            'description' => 'In welke gemeente wilt u iemand begraven?',
+        ]);
+
+        //begraafplaats stage
+        $stage = $this->createStage([
+            'name' => 'Begraafplaats',
+            'orderNumber' => 2,
+            'slug' => 'begraafplaats',
+            'description' => 'Bij welke begraafplaats moet de begrafenis plaatsvinden',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[1]['@id']],
+            'name'        => 'Gemeente',
+            'description' => 'In welke gemeente wilt u iemand begraven?',
+        ]);
+
+        //grafsoort stage
+        $stage = $this->createStage([
+            'name' => 'Grafsoort',
+            'orderNumber' => 3,
+            'slug' => 'grafsoort',
+            'description' => 'Het soort graf waarin de overledene wordt begraven',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[2]['@id']],
+            'name'        => 'Soort graf',
+            'description' => 'Wat voor soort graf wilt u iemand in begraven?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[3]['@id']],
+            'name'        => 'Kistmaat',
+            'description' => 'Valt de kist binnen de standaard afmetingen van 55cm bij 200cm?',
+        ]);
+
+        //bestaand graf stage
+        $stage = $this->createStage([
+            'name' => 'Bestaand graf',
+            'orderNumber' => 4,
+            'slug' => 'bestaand-graf',
+            'description' => 'Moet de overledene in een bestaand of een nieuw graf worden begraven?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[8]['@id']],
+            'name'        => 'Bestaand graf',
+            'description' => 'In het geval van een bijzetting dient u het graf waarin dient te worden bijgezet te identificeren met een grafnummer of naam van reeds geplaatste overledenen',
+        ]);
+
+        //datum stage
+        $stage = $this->createStage([
+            'name' => 'Datum',
+            'orderNumber' => 5,
+            'slug' => 'datum',
+            'description' => 'Wanneer gaat het afscheid plaatsvinden?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[6]['@id']],
+            'name'        => 'Datum',
+            'description' => 'Wanneer vindt het afscheid plaats?',
+        ]);
+
+        //artikelen stage
+        $stage = $this->createStage([
+            'name' => 'Artikelen',
+            'orderNumber' => 6,
+            'slug' => 'artikelen',
+            'description' => 'Wanneer gaat het afscheid plaatsvinden?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[6]['@id']],
+            'name'        => 'Datum',
+            'description' => 'Wanneer vindt het afscheid plaats?',
+        ]);
+
     }
 }
