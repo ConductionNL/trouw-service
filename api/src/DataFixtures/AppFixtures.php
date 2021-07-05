@@ -1263,6 +1263,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 1,
             'slug' => 'gemeente',
             'description' => 'De gemeente waarin de begrafenis plaats moet vinden',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1278,6 +1279,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 2,
             'slug' => 'begraafplaats',
             'description' => 'Bij welke begraafplaats moet de begrafenis plaatsvinden',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1293,6 +1295,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 3,
             'slug' => 'grafsoort',
             'description' => 'Het soort graf waarin de overledene wordt begraven',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1315,6 +1318,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 4,
             'slug' => 'bestaand-graf',
             'description' => 'Moet de overledene in een bestaand of een nieuw graf worden begraven?',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1330,6 +1334,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 5,
             'slug' => 'datum',
             'description' => 'Wanneer gaat het afscheid plaatsvinden?',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1345,6 +1350,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 6,
             'slug' => 'artikelen',
             'description' => 'Selecteer hier de gewenste artikelen voor de begrafenis.',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1360,6 +1366,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 7,
             'slug' => 'overledene',
             'description' => 'Wie wordt er begraven?',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1382,6 +1389,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 8,
             'slug' => 'aanvrager-rechthebbende',
             'description' => 'Wie treed op als aanvrager/rechthebbende?',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1397,6 +1405,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'orderNumber' => 9,
             'slug' => 'contactpersoon',
             'description' => 'Wie treed op als contactpersoon?',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
@@ -1418,6 +1427,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'name' => 'Aanvullende informatie',
             'orderNumber' => 10,
             'slug' => 'aanvullende-informatie',
+            'process'   => "/process_types/{$processType['id']}",
         ]);
 
         $this->createSection([
