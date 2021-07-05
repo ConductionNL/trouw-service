@@ -1115,17 +1115,6 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         //4
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
-            'title' => 'Kistmaat',
-            'icon' => 'fa fa-headstone',
-            'type' => 'string',
-            'enum' => ['De kist valt binnen de standaard afmetingen van 55cm bij 200cm.', 'De kist is groter dan de standaard afmetingen van 55cm bij 200cm.'],
-            'format' => 'radio',
-            'required' => true
-        ]);
-
-        //5
-        $properties[] = $this->createProperty([
-            'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Opmerkingen',
             'icon' => 'fa fa-headstone',
             'type' => 'string',
@@ -1133,7 +1122,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'required' => false
         ]);
 
-        //6
+        //5
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Datum',
@@ -1150,7 +1139,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             ]
         ]);
 
-        //7
+        //6
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Artikelen',
@@ -1162,7 +1151,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'required' => false
         ]);
 
-        //8
+        //7
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Grafnummer of grafnaam',
@@ -1173,10 +1162,10 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'required' => false
         ]);
 
-        //9
+        //8
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
-            'title' => 'Aanvrager / Rechthebebnde',
+            'title' => 'Aanvrager / Rechthebbende',
             'icon' => 'fa fa-headstone',
             'type' => 'string',
             'format' => 'url',
@@ -1185,7 +1174,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'maxItems' => 1,
         ]);
 
-        //10
+        //9
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Contactpersoon',
@@ -1196,7 +1185,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'required' => true,
         ]);
 
-        //11
+        //10
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Factuur persoon',
@@ -1214,7 +1203,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             ]
         ]);
 
-        //12
+        //11
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Factuur adres',
@@ -1225,7 +1214,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'description' => 'Naar wie moet de factuur worden gestuurd voor deze begrafenis',
         ]);
 
-        //13
+        //12
         $properties[] = $this->createProperty([
             'requestType' => '/request_types/'.$requestType['id'],
             'title' => 'Overledene met bsn',
@@ -1294,8 +1283,8 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $this->createSection([
             'stage'       => "/stages/{$stage['id']}",
             'properties'  => [$properties[1]['@id']],
-            'name'        => 'Gemeente',
-            'description' => 'In welke gemeente wilt u iemand begraven?',
+            'name'        => 'Begraafplaats',
+            'description' => 'Bij welke begraafplaats moet de begrafenis plaatsvinden?',
         ]);
 
         //grafsoort stage
@@ -1330,7 +1319,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
 
         $this->createSection([
             'stage'       => "/stages/{$stage['id']}",
-            'properties'  => [$properties[8]['@id']],
+            'properties'  => [$properties[7]['@id']],
             'name'        => 'Bestaand graf',
             'description' => 'In het geval van een bijzetting dient u het graf waarin dient te worden bijgezet te identificeren met een grafnummer of naam van reeds geplaatste overledenen',
         ]);
@@ -1345,7 +1334,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
 
         $this->createSection([
             'stage'       => "/stages/{$stage['id']}",
-            'properties'  => [$properties[6]['@id']],
+            'properties'  => [$properties[5]['@id']],
             'name'        => 'Datum',
             'description' => 'Wanneer vindt het afscheid plaats?',
         ]);
@@ -1355,14 +1344,87 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'name' => 'Artikelen',
             'orderNumber' => 6,
             'slug' => 'artikelen',
-            'description' => 'Wanneer gaat het afscheid plaatsvinden?',
+            'description' => 'Selecteer hier de gewenste artikelen voor de begrafenis.',
         ]);
 
         $this->createSection([
             'stage'       => "/stages/{$stage['id']}",
             'properties'  => [$properties[6]['@id']],
-            'name'        => 'Datum',
-            'description' => 'Wanneer vindt het afscheid plaats?',
+            'name'        => 'Artikelen',
+            'description' => 'Selecteer hier de gewenste artikelen voor de begrafenis.',
+        ]);
+
+        //overledene stage
+        $stage = $this->createStage([
+            'name' => 'Overledene',
+            'orderNumber' => 7,
+            'slug' => 'overledene',
+            'description' => 'Wie wordt er begraven?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[12]['@id']],
+            'name'        => 'Overledene met bsn',
+            'description' => 'Wie is er overleden?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[13]['@id']],
+            'name'        => 'Overledene zonder bsn',
+            'description' => 'Wie is er overleden?',
+        ]);
+
+        //Aanvrager / Rechthebbende stage
+        $stage = $this->createStage([
+            'name' => 'Aanvrager / Rechthebbende',
+            'orderNumber' => 8,
+            'slug' => 'aanvrager-rechthebbende',
+            'description' => 'Wie treed op als aanvrager/rechthebbende?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[8]['@id']],
+            'name'        => 'Aanvrager / Rechthebbende',
+            'description' => 'Wie treed er op als aanvrager/rechthebbende?',
+        ]);
+
+        //Contactpersoon stage
+        $stage = $this->createStage([
+            'name' => 'Contactpersoon',
+            'orderNumber' => 9,
+            'slug' => 'contactpersoon',
+            'description' => 'Wie treed op als contactpersoon?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[9]['@id']],
+            'name'        => 'Contactpersoon',
+            'description' => 'Wie treed er op als contactpersoon?',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[10]['@id']],
+            'name'        => 'Factuuradres',
+            'description' => 'Wie moet de factuur ontvangen?',
+        ]);
+
+        //aanvullende informatie stage
+        $stage = $this->createStage([
+            'name' => 'Aanvullende informatie',
+            'orderNumber' => 10,
+            'slug' => 'aanvullende-informatie',
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'properties'  => [$properties[4]['@id']],
+            'name'        => 'Opmerkingen',
+            'description' => 'Zijn er extra opmerkingen of wensen die u wilt meegeven?',
         ]);
 
     }
