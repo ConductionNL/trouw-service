@@ -1049,7 +1049,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'catalogue'          => $catalogue['@id'],
 
         ];
-        $graveArticlesGroup = $this->addProductsToGroup($graveTypes, $graveArticlesGroup);
+        $graveArticlesGroup = $this->addProductsToGroup($graveArticles, $graveArticlesGroup);
 
         $graveArticlesGroup = $this->commonGroundService->createResource($graveArticlesGroup, ['component' => 'pdc', 'type' => 'groups']);
 
@@ -1229,7 +1229,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'icon' => 'fa fa-headstone',
             'type' => 'string',
             'format' => 'string',
-            'iri' => 'brp/ingeschreveneprsoon',
+            'iri' => 'brp/ingeschrevenpersoon',
         ]);
 
         //13
