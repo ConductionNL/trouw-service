@@ -54,6 +54,7 @@ class AppFixtures extends Fixture
         return [
             'utrecht' => $this->createMunicipality('Utrecht', 'Gemeente Utrecht', '002220647', 'info@utrecht.nl'),
             'westFriesland' => $this->createMunicipality('West Friesland', 'Gemeente West Friesland', '002224444', 'info@westfriesland.nl'),
+            'denBosch' => $this->createMunicipality('\'s Hertogenbosch', 'Gemeente \'s Hertogenbosch', '001709124', 'info@denbosch.nl'),
         ];
     }
 
@@ -495,6 +496,11 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         return $this->commonGroundService->createResource($stage, ['component' => 'vtc', 'type' => 'properties']);
     }
 
+    public function createTask(array $resource): array
+    {
+        return $this->commonGroundService->createResource($resource, ['component' => 'vtc', 'type' => 'tasks']);
+    }
+
     public function createRequestType($municipality): array
     {
         $requestType = [
@@ -933,6 +939,7 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
         $this->loadPdcFixtures($municipalities['utrecht']);
         $this->loadVtcFixtures($municipalities['utrecht']);
         $this->loadBegravenFixtures($municipalities['westFriesland']);
+        $this->loadVerhuizenFixtures($municipalities['denBosch']);
 
         return $municipalities;
     }
@@ -1365,5 +1372,211 @@ Een afspraak voor eenvoudig en gratis trouwen kan pas worden gemaakt als u uw vo
             'description' => 'Wanneer vindt het afscheid plaats?',
         ]);
 
+    }
+
+    public function loadVerhuizenFixtures($municipality)
+    {
+        //vtc fixtures
+        $requestType = [
+            'name'         => 'Verhuizen',
+            'description'  => 'Met dit verzoek kunt u een verhuizing melden',
+            'organization' => $municipality['@id'],
+            'icon'         => 'fa fa-building',
+        ];
+
+        $requestType = $this->commonGroundService->createResource($requestType, ['component' => 'vtc', 'type' => 'request_types']);
+
+        $properties = [];
+
+        //0
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Datum',
+            'icon' => 'fas fa-calendar-day',
+            'type' => 'string',
+            'format' => 'date',
+            'description' => 'Wat is de verhuisdatum?',
+            'utter' => 'Wat is de verhuisdatum?'
+        ]);
+
+        //1
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Adres',
+            'description' => 'Wat is het nieuwe adres?',
+            'utter' => 'Ik heb een vraag over uw nieuwe adres',
+            'icon' => 'fas fa-map-marked',
+            'type' => 'string',
+            'format' => 'url',
+            'iri' => 'bag/address',
+            'required' => true
+        ]);
+
+        //2
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Wie',
+            'icon' => 'fas fa-map-marked',
+            'type' => 'array',
+            'format' => 'bag',
+            'required' => true,
+            'description' => 'Wie gaat er verhuizen?',
+            'utter' => 'Welke personen gaan er verhuizen?'
+        ]);
+
+        //3
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Wiebsn',
+            'icon' => 'fas fa-map-marked',
+            'type' => 'array',
+            'format' => 'bsn',
+            'description' => 'BSN nummers van alle verhuisenden',
+        ]);
+
+        //4
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'name' => 'shertogenboschEmail',
+            'title' => 'Email',
+            'icon' => 'fas fa-envelope',
+            'type' => 'string',
+            'format' => 'email',
+            'description' => 'Op welk e-mail adres kunnen we u bereiken?',
+            'utter' => 'Op welk e-mail adres kunnen we je bereiken als we vragen hebben over deze verhuizing?',
+        ]);
+
+        //5
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Telefoon',
+            'icon' => 'fas fa-phone',
+            'type' => 'string',
+            'format' => 'tel',
+            'description' => 'Op welk telefoonnummer kunnen we u bereiken?',
+            'utter' => 'Op welk telefoonnummer kunnen we je bereiken als we vragen hebben over deze verhuizing?',
+        ]);
+
+        //6
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'notificatie',
+            'icon' => 'fas fa-bell',
+            'type' => 'boolean',
+            'format' => 'radio',
+            'description' => 'Mogen wij andere op de hoogte stellen van uw verhuizing?',
+            'utter' => 'Mogen wij deze verhuizing aan anderen doorgeven? Bijvoorbeeld aan postdiensten, sportverenigingen of kerkgenootschappen?'
+        ]);
+
+        //7
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Artikelen',
+            'icon' => 'fa fa-headstone',
+            'type' => 'array',
+            'query' => ['audience' => 'public', 'products.groups.name' => 'Grafartikelen', 'products.groups.sourceOrganization' => '{{ request.properties.gemeente }}'],
+            'format' => 'uri',
+            'iri' => 'pdc/offer',
+        ]);
+
+        //8
+        $properties[] = $this->createProperty([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'title' => 'Mee verhuizers',
+            'icon' => 'fas fa-map-marked',
+            'type' => 'string',
+            'format' => 'meeverhuizen',
+            'description' => 'Zijn er mensen die mee verhuizen?',
+        ]);
+
+        //9
+        $properties[] = $this->createTask([
+            'requestType' => '/request_types/'.$requestType['id'],
+            'name' => 'Updaten burger service nummers',
+            'description' => 'Deze task roept een webhook aan als er een verzoek van het type verhuizen wordt gecrieërd?',
+            'endpoint' => $this->commonGroundService->cleanUrl(['component'=>'vs', 'type'=>'webhook']),
+            'type' => 'get',
+            'code' => 'set_bsn',
+            'event' => 'create',
+            'timeInterval' => 'P0D',
+        ]);
+
+
+        //ptc fixtures
+
+        $processType = [
+            'icon'                  => 'fas fa-truck-moving',
+            'login'                 => 'onSubmit',
+            'name'                  => 'Verhuizen',
+            'description'           => 'Hier kunt u uw verhuizing doorgeven.',
+            'sourceOrganization'    => $municipality['@id'],
+            'requestType'           => $requestType['@id'],
+        ];
+
+        $processType =  $this->commonGroundService->createResource($processType, ['component' => 'ptc', 'type' => 'process_types']);
+
+        // Waarheen en Wanneer stage
+        $stage = $this->createStage([
+            'name' => 'Waarheen en Wanneer',
+            'description' => 'Waarheen en waneer wilt u verhuizen',
+            'icon' => 'fas fa-calendar',
+            'slug' => 'gegevens',
+            'process' => '/process_types/' . $processType['id'],
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'name'        => 'Datum en tijd',
+            'description' => 'Datum en tijd van de verhuizing',
+            'properties'  => [
+                $properties[0]['@id'],
+                $properties[1]['@id'],
+            ],
+        ]);
+
+        // contact gegevens stage
+        $stage = $this->createStage([
+            'name' => 'Contact Gegevens',
+            'description' => 'Hoe kunnen wij u bereiken',
+            'icon' => 'fas fa-calendar',
+            'slug' => 'contact',
+            'process' => '/process_types/' . $processType['id'],
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'name'        => 'Gegevens',
+            'description' => 'Waar kunnen wij u bereiken als we vragen hebben over deze verhuizing',
+            'properties'  => [
+                $properties[4]['@id'],
+                $properties[5]['@id'],
+            ],
+        ]);
+
+        $this->createSection([
+            'stage'       => "/stages/{$stage['id']}",
+            'name'        => 'Notificatie',
+            'description' => 'Mogen wij andere op de hoogste stellen van uw verhuizing?',
+            'properties'  => [
+                $properties[6]['@id']
+            ],
+        ]);
+
+//        // live!2021 gegevens stage
+//        $stage = $this->createStage([
+//            'name' => 'LIVE!2021',
+//            'description' => 'Deze stap zit normaal gesproken niet in de klantreis maar om je de inlog gegevens te kunnen e-mailen voor het zaaksysteem moeten we je wel kunnen bereiken! (oh en vergeet de gratis tompouce niet die je krijgt als je de zaak netjes afrond in het zaaksysteem!)',
+//            'icon' => 'fas fa-users',
+//            'slug' => 'bedrijfgegevens',
+//        ]);
+//
+//        $this->createSection([
+//            'stage'       => "/stages/{$stage['id']}",
+//            'name'        => 'Contactgegevens voor de tompouce',
+//            'description' => 'Wat zijn uw contactgegevens?',
+//            'properties'  => [
+//            ],
+//            'process' => '/process_types/' . $processType['id'],
+//        ]);
     }
 }
